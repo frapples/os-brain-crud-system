@@ -1,4 +1,4 @@
-package io.github.frapples.osbrainsystem.biz;
+package io.github.frapples.osbrainsystem.biz.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

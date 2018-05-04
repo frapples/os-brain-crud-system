@@ -6,5 +6,5 @@ import com.baomidou.mybatisplus.enums.IdType;
 public class BaseDO {
 
     @TableId(type = IdType.AUTO)
-    Integer id;
+    private Integer id;
 }

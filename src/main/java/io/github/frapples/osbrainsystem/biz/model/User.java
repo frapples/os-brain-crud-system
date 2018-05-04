@@ -1,17 +1,16 @@
-package io.github.frapples.osbrainsystem.dal.dao;
+package io.github.frapples.osbrainsystem.biz.model;
 
-import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@TableName("user")
-public class UserDO extends BaseDO {
+public class User {
+
     private String name;
     private String studentId;
     private String classId;
