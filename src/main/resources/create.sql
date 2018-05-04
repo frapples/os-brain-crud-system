@@ -26,6 +26,7 @@ CREATE TABLE `admin` (
 id INT PRIMARY KEY,
 name CHAR(8) NOT NULL,
 email VARCHAR(30) NOT NULL,
+password_hash CHAR(64) NOT NULL,
 phone VARCHAR(20)
 );
 
