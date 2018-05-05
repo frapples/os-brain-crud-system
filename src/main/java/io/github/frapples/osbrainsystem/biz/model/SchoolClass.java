@@ -6,13 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
+@Builder
+public class SchoolClass {
+    private Integer id;
     private String name;
-    private String email;
-    private String phone;
-    private String password;
-    private String passwordHash;
+    private Integer startYear;
 }

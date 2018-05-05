@@ -1,9 +1,12 @@
 package io.github.frapples.osbrainsystem.biz.service;
 
 import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.model.SchoolClass;
 import io.github.frapples.osbrainsystem.biz.model.User;
+import io.github.frapples.osbrainsystem.dal.repository.SchoolClassRepository;
 import io.github.frapples.osbrainsystem.dal.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,9 @@ public class AccountService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private SchoolClassRepository schoolClassRepository;
 
 
     public ResponseDTO<Object> addUser(User user) {
@@ -26,7 +32,30 @@ public class AccountService {
     }
 
     public ResponseDTO<User> getUser(String studentId) {
-        return userRepository.getUser(studentId).map(ResponseDTO::ofSuccess).orElse(ResponseDTO.ofFailed());
+        return userRepository.getUser(studentId)
+            .map(ResponseDTO::ofSuccess)
+            .orElse(ResponseDTO.ofFailed());
+    }
+
+    public ResponseDTO addClass(SchoolClass schoolClass) {
+        boolean success = schoolClassRepository.addClass(schoolClass);
+        return ResponseDTO.ofSuccess(success);
+    }
+
+    public ResponseDTO<List<SchoolClass>> getClasses() {
+        List<SchoolClass> classes = schoolClassRepository.getClasses();
+        return ResponseDTO.ofSuccess(classes);
+    }
+
+    public ResponseDTO<SchoolClass> getClassById(Integer id) {
+        Optional<SchoolClass> schoolClass = schoolClassRepository.getClassById(id);
+        return schoolClass.map(ResponseDTO::ofSuccess)
+            .orElseGet(ResponseDTO::ofFailed);
+    }
+
+    public ResponseDTO updateClass(SchoolClass schoolClass) {
+        boolean success = schoolClassRepository.updateClass(schoolClass);
+        return ResponseDTO.ofSuccess(success);
     }
 
 }
