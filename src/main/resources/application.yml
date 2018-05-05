@@ -21,10 +21,27 @@ spring:
     url: jdbc:sqlite:/home/computer/sqlite.db
     username:
     password:
+  freemarker:
+    template-loader-path: classpath:/web/
+    cache: false
+    charset: UTF-8
 
-logging:
-  level:
-    root: debug
+
+  thymeleaf:
+    mode: LEGACYHTML5
+    prefix: classpath:/web/
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html # ;charset=<encoding> is added
+    cache: false # set to false for hot refresh
+
+  mvc:
+    static-path-pattern: /static/**
+
+
+# logging:
+  # level:
+    # root: debug
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
