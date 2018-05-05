@@ -17,5 +17,11 @@ public class PageController {
         log.info("Enter page {}", page);
         return page;
     }
+
+    @RequestMapping(value = "/{sub}/{page}", method = RequestMethod.GET)
+    public String route(@PathVariable String sub, @PathVariable String page, Model model) {
+        log.info("Enter page {}", page);
+        return String.format("%s/%s", sub, page);
+    }
 }
 

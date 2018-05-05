@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="/static/assets/favicon.ico" type="image/x-icon"/>
+    <title>Hello</title>
+    <vue-import th:replace="commons/base"></vue-import>
+    <link rel="stylesheet" type="text/css" href="/static/style/style.css"/>
+
+    <script src="/static/script/network.js"></script>
+</head>
+
+<body>
+<style>
+    body {
+        background-image: url(/static/assets/login-background.jpg);
+        background-repeat: no-repeat;
+    }
+
+    .ms-login{
+        margin: 50px auto;
+        width:450px;
+    }
+
+    .login-header {
+        height: 70px;
+        background: #5f5e53;
+        margin-bottom: 20px;
+    }
+
+    .ms-title {
+        padding-top: 15px;
+        padding-left: 10px;
+        font-size: 30px;
+        color: #fff;
+    };
+
+</style>
+
+<div id="app">
+    <div class="login-wrap">
+        <div class="login-header">
+            <div class="ms-title">
+                <img style="width: 35px; height: 35px; border-radius: 50%; float: left; margin-right: 10px"
+                     src="/static/assets/logo.png"/>
+                OS Brain 后台系统
+            </div>
+        </div>
+        <el-card class="ms-login">
+            <div slot="header" class="clearfix">
+                <i class="el-icon-setting"></i>
+                <span>登录</span>
+            </div>
+            <el-form :model="form" :rules="rules" ref="form" label-position="left" label-width="70px">
+                <el-form-item prop="username" label="用户名">
+                    <el-input v-model="form.username" placeholder="username"></el-input>
+                </el-form-item>
+                <el-form-item prop="password" label="密码">
+                    <el-input type="password" placeholder="password" 
+                    v-model="form.password" @keyup.enter.native="submitForm()"></el-input>
+                </el-form-item>
+                <el-button type="primary" style="width: 100%" round :loading="loading"
+                           @click="submitForm">登录</el-button>
+            </el-form>
+        </el-card>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: function() {
+            return {
+                loading: false,
+                form: {
+                    name: "",
+                    password: ""
+                },
+
+                rules: {
+                    username: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, message: '请输入密码', trigger: 'blur' }
+                    ]
+                }
+            }
+        },
+        methods: {
+            submitForm() {
+                this.$refs.form.validate((valid) => {
+                    if (valid) {
+                        this.loading = true;
+                    } else {
+                    }
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
