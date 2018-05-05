@@ -1,0 +1,115 @@
+<style>
+    .x-sidebar{
+        display: block;
+        position: absolute;
+        width: 220px;
+        left: 0;
+        top: 70px;
+        bottom:0;
+        background: #2E363F;
+    }
+
+    .x-sidebar .el-menu[role="menubar"] {
+        background: #293c59;
+    }
+
+    .x-sidebar .el-menu[role="menu"] {
+        background: #2E363F;
+    }
+
+
+    .x-sidebar .el-menu[role="menu"] {
+        background: #2E363F;
+    }
+
+    .x-sidebar .el-menu .el-menu-item:hover {
+
+        background-color: #48576a;
+    }
+
+    .x-sidebar .el-menu .el-submenu__title:hover {
+        background-color: #48576a;
+    }
+
+    .x-sidebar .el-menu[role="menubar"] .is-active {
+        background: #293c59;
+    }
+
+    .x-sidebar .el-menu[role="menu"]  .is-active {
+        background-color: #48576a;
+    }
+
+    .x-sidebar > ul {
+        height:100%;
+    }
+</style>
+
+<template id="x-siderbar">
+    <div class="x-sidebar">
+        <el-menu :default-active="defaultIndex" class="el-menu-vertical-demo"
+                 text-color="#bfcbd9"
+                 active-text-color="#20a0ff"
+                 @select="onSelect"
+                 unique-opened>
+            <template v-for="item in items">
+                <template v-if="item.subs">
+                    <el-submenu :index="item.index">
+                        <template slot="title"><i :class="item.icon"></i>{{ item.title }}</template>
+                        <el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index">{{ subItem.title }}
+                        </el-menu-item>
+                    </el-submenu>
+                </template>
+                <template v-else>
+                    <el-menu-item :index="item.index">
+                        <i :class="item.icon"></i>{{ item.title }}
+                    </el-menu-item>
+                </template>
+            </template>
+        </el-menu>
+    </div>
+</template>
+
+<script>
+
+    Vue.component('x-siderbar', {
+        template: "#x-siderbar",
+        data: function () {
+            return {
+                items: [
+                    {
+                        icon: 'el-icon-menu',
+                        index: '2',
+                        title: 'Tables',
+                        subs: [
+                            {
+                                index: 'table1',
+                                title: 'First table'
+                            },
+                            {
+                                index: 'table2',
+                                title: 'Second table'
+                            },
+                            {
+                                index: 'table3',
+                                title: 'Last table'
+                            },
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'about',
+                        title: 'About'
+                    },
+                ],
+                defaultIndex: "about",
+            };
+        },
+
+        methods: {
+            onSelect: function (index, path) {
+                this.$emit("select", index, path);
+            },
+        },
+
+    });
+</script>

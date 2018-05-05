@@ -1,0 +1,69 @@
+<style>
+    .x-header .header {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        height: 70px;
+        font-size: 22px;
+        line-height: 70px;
+        color: #fff;
+        background-color: #242f42;
+    }
+    .x-header .header .logo{
+        float: left;
+        width:250px;
+        text-align: center;
+    }
+    .x-header .user-info {
+        float: right;
+        padding-right: 50px;
+        font-size: 16px;
+        color: #fff;
+    }
+    .x-header .user-info .el-dropdown-link{
+        /* position: relative; */
+        display: inline-block;
+        padding-left: 50px;
+        color: #fff;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+    .x-header .user-info .user-logo{
+        position: absolute;
+        left:0;
+        top:15px;
+        width:40px;
+        height:40px;
+        border-radius: 50%;
+    }
+    .x-header .el-dropdown-menu__item{
+        text-align: center;
+    }
+</style>
+
+<template id="x-header">
+    <div class="x-header">
+        <div class="header">
+            <div class="logo">Admin System</div>
+            <div class="user-info">
+                <el-dropdown trigger="click">
+                    <span class="el-dropdown-link">
+                        <img class="user-logo" src="/static/assets/logo.png">
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="logout">Log out</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    Vue.component('x-header', {
+        template: "#x-header",
+        data: function () {
+            return {
+            };
+        },
+    });
+</script>
