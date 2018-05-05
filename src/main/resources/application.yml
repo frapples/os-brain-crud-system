@@ -21,15 +21,10 @@ spring:
     url: jdbc:sqlite:/home/computer/sqlite.db
     username:
     password:
-  freemarker:
-    template-loader-path: classpath:/web/
-    cache: false
-    charset: UTF-8
-
-
   thymeleaf:
     mode: LEGACYHTML5
-    prefix: classpath:/web/
+    # prefix: classpath:/web/
+    prefix: file:///home/computer/IdeaProjects/os-brain-system-backend/src/main/resources/web/ # debug
     suffix: .html
     encoding: UTF-8
     content-type: text/html # ;charset=<encoding> is added
