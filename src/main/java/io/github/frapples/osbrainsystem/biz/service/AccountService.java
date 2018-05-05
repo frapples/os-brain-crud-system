@@ -1,6 +1,7 @@
 package io.github.frapples.osbrainsystem.biz.service;
 
 import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.dto.ResponseStatusEnum;
 import io.github.frapples.osbrainsystem.biz.model.SchoolClass;
 import io.github.frapples.osbrainsystem.biz.model.User;
 import io.github.frapples.osbrainsystem.dal.repository.SchoolClassRepository;
@@ -34,7 +35,7 @@ public class AccountService {
     public ResponseDTO<User> getUser(String studentId) {
         return userRepository.getUser(studentId)
             .map(ResponseDTO::ofSuccess)
-            .orElse(ResponseDTO.ofFailed());
+            .orElse(ResponseDTO.ofFailed(ResponseStatusEnum.NOT_EXIST_STATUS));
     }
 
     public ResponseDTO addClass(SchoolClass schoolClass) {
@@ -50,7 +51,7 @@ public class AccountService {
     public ResponseDTO<SchoolClass> getClassById(Integer id) {
         Optional<SchoolClass> schoolClass = schoolClassRepository.getClassById(id);
         return schoolClass.map(ResponseDTO::ofSuccess)
-            .orElseGet(ResponseDTO::ofFailed);
+            .orElse(ResponseDTO.ofFailed(ResponseStatusEnum.NOT_EXIST_STATUS));
     }
 
     public ResponseDTO updateClass(SchoolClass schoolClass) {

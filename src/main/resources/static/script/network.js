@@ -18,7 +18,7 @@
                 if (response.status == 200 && response.data.code == 200) {
                     resolve(response.data.data);
                 } else {
-                    (new Vue).$notify.error({
+                    (new Vue()).$notify.error({
                         title: 'Error',
                         message: 'System error, please contact the administrator'
                     });
@@ -28,7 +28,7 @@
         };
 
         var onError = function (error) {
-            (new Vue).$notify.error({
+            (new Vue()).$notify.error({
                 title: 'Error',
                 message: 'Network error'
             });
@@ -42,6 +42,16 @@
 
             return axios.post(url, params).then(converter).catch(onError);
         };
+
+        self.put = function (url, data) {
+            var params = new URLSearchParams();
+            for (var key in data) {
+                params.append(key, data[key]);
+            }
+
+            return axios.put(url, params).then(converter).catch(onError);
+        };
+
 
         self.get = function (url, data) {
             return axios.get(url, {

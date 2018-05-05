@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="/static/assets/favicon.ico" type="image/x-icon"/>
+    <title>Hello</title>
+    <vue-import th:replace="commons/base"></vue-import>
+    <link rel="stylesheet" type="text/css" href="/static/style/style.css"/>
+
+    <script src="/static/script/network.js"></script>
+</head>
+
+<body>
+<vue-import th:replace="commons/header"></vue-import>
+<vue-import th:replace="commons/siderbar"></vue-import>
+
+<div id="app">
+    <el-container style="min-height: 100vh">
+        <el-header height="70">
+            <x-header></x-header>
+        </el-header>
+        <el-container>
+            <el-aside width="220px">
+                <x-siderbar @select="onSelect"></x-siderbar>
+            </el-aside>
+            <el-main>
+                <transition name="el-fade-in">
+                    Hello
+                </transition>
+
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+
+        data: function () {
+            return {
+                selectIndex: "counterOrder",
+            };
+        },
+
+        methods:  {
+            onSelect: function (index, path) {
+                console.log(index);
+                this.$emit("select", index, path);
+                this.selectIndex = index;
+            },
+
+        },
+    });
+
+</script>
+</body>
+</html>

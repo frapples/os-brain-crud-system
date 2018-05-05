@@ -7,18 +7,22 @@ import lombok.Getter;
 @Getter
 public class ResponseDTO<T> {
 
-    public static final int SUCCESS_CODE = 200;
-    public static final int FAILED_CODE = 500;
+    public static final int NORMAL_CODE = 200;
+    public static final int ERROR_CODE = 500;
 
     private Integer code;
-    private String msg;
+    private String status;
     private T data;
 
     public static <T> ResponseDTO<T> ofSuccess(T data) {
-        return new ResponseDTO<T>(SUCCESS_CODE, "执行成功", data);
+        return new ResponseDTO<T>(NORMAL_CODE, ResponseStatusEnum.SUCCESS_STATUS.getStatus(), data);
     }
 
-    public static <T> ResponseDTO<T> ofFailed() {
-        return new ResponseDTO<T>(FAILED_CODE, "系统错误", null);
+    public static <T> ResponseDTO<T> ofFailed(ResponseStatusEnum status) {
+        return new ResponseDTO<T>(NORMAL_CODE, status.getStatus(), null);
+    }
+
+    public static <T> ResponseDTO<T> ofError() {
+        return new ResponseDTO<T>(ERROR_CODE, "SYSTEM_ERROR", null);
     }
 }
