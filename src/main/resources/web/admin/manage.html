@@ -14,6 +14,12 @@
 <vue-import th:replace="commons/header"></vue-import>
 <vue-import th:replace="commons/siderbar"></vue-import>
 
+<vue-import th:replace="admin/subpages/book"></vue-import>
+
+
+<vue-import th:replace="components/timeLabel"></vue-import>
+<vue-import th:replace="components/confirmDialog"></vue-import>
+
 <div id="app">
     <el-container style="min-height: 100vh">
         <el-header height="70">
@@ -25,7 +31,7 @@
             </el-aside>
             <el-main>
                 <transition name="el-fade-in">
-                    Hello
+                    <x-admin-subpage-book v-if="selectIndex == 'book'"></x-admin-subpage-book>
                 </transition>
 
             </el-main>

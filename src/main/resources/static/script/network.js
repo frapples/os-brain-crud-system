@@ -59,6 +59,12 @@
             }).then(converter).catch(onError);
         };
 
+        self.delete = function (url, data) {
+            return axios.delete(url, {
+                params: data,
+            }).then(converter).catch(onError);
+        };
+
         self.initApi = function () {
             self.api = {};
             self.apis.forEach(function (api) {

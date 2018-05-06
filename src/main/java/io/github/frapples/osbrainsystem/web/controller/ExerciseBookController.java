@@ -1,6 +1,7 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
 import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
 import io.github.frapples.osbrainsystem.biz.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class ExerciseBookController {
         return questionService.getBooks();
     }
 
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDTO addBook(ExerciseBook exerciseBook) {
+        log.info("Add book: {}", exerciseBook);
+        return questionService.addBook(exerciseBook);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -45,5 +52,12 @@ public class ExerciseBookController {
     public ResponseDTO getQuestions(@PathVariable Integer id) {
         log.info("get questions by id: {}", id);
         return questionService.getBookById(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseDTO deleteBook(@PathVariable Integer id) {
+        log.info("delete book by id: {}", id);
+        return questionService.deleteBook(id);
     }
 }

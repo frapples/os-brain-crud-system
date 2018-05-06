@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @TableName("exercise_book")
-public class ExerciseBookDO {
+public class ExerciseBookDO extends BaseDO {
 
     private String name;
     private String comment;

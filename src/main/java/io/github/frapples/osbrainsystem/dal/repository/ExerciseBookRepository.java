@@ -1,6 +1,8 @@
 package io.github.frapples.osbrainsystem.dal.repository;
 
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import io.github.frapples.osbrainsystem.biz.converter.ModelConverter;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
@@ -32,7 +34,16 @@ public class ExerciseBookRepository {
     public List<ExerciseBook> getBooks() {
         List<ExerciseBookDO> dos = exerciseBookMapper.selectList(new EntityWrapper<>());
         List<ExerciseBook> books = ModelConverter.convert(dos, ExerciseBook.class);
-        return books;
+        return dos.stream().map((bookDO) -> {
+            ExerciseBook book = ModelConverter.convert(bookDO, ExerciseBook.class);
+
+            Preconditions.checkNotNull(book);
+
+            int count = exerciseBookQuestionRelationMapper.selectCount(
+                Condition.create().eq("exercise_book_id", bookDO.getId()));
+            book.setCount(count);
+            return book;
+        }).collect(Collectors.toList());
     }
 
 
@@ -66,4 +77,17 @@ public class ExerciseBookRepository {
             .collect(Collectors.toList());
     }
 
+    public boolean addBook(ExerciseBook exerciseBook) {
+        return CrudRepositoryUtils.insert(exerciseBookMapper, exerciseBook, ExerciseBookDO.class);
+    }
+
+    public boolean deleteBook(Integer id) {
+        if (id == null) {
+            return true;
+        }
+
+        exerciseBookQuestionRelationMapper.delete(Condition.create().eq("exercise_book_id", id));
+        exerciseBookMapper.deleteById(id);
+        return true;
+    }
 }

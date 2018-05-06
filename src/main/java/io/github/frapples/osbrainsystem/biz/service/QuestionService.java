@@ -67,4 +67,12 @@ public class QuestionService {
         return ResponseDTO.ofSuccess(
             questionRepository.getQuestionGrouped());
     }
+
+    public ResponseDTO addBook(ExerciseBook exerciseBook) {
+        return ResponseDTO.ofSuccess(exerciseBookRepository.addBook(exerciseBook));
+    }
+
+    public ResponseDTO deleteBook(Integer id) {
+        return ResponseDTO.ofSuccess(exerciseBookRepository.deleteBook(id));
+    }
 }

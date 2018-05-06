@@ -1,0 +1,23 @@
+
+<template id="x-time-label">
+    <el-popover placement="top-start" width="200" trigger="hover" :content="formatDateTime(timestamp)">
+        <div slot="reference">
+            <i class="el-icon-time"></i>
+            <span> {{ formatDate(timestamp) }}</span>
+        </div>
+    </el-popover>
+</template>
+
+
+<script>
+    Vue.component('x-time-label', {
+        props: ["timestamp"],
+        template: "#x-time-label",
+
+        methods: {
+            formatDate: formatDate,
+            formatDateTime: formatDateTime
+        }
+    });
+
+</script>

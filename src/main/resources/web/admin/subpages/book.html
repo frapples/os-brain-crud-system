@@ -1,0 +1,75 @@
+
+
+<vue-import th:replace="admin/components/bookAddForm"></vue-import>
+
+<template id="x-admin-subpage-book">
+    <el-card class="box-card">
+        <div slot="header" class="clearfix">
+            <span>习题集</span>
+            <x-book-add-form ref="form" @after-added="update"></x-book-add-form>
+            <el-button style="float: right; padding: 3px 0"
+             type="text"
+              @click="$refs.form.open()">
+              添加
+            </el-button>
+        </div>
+        <el-table :data="data" v-loading="loading" border style="width: 100%">
+            <el-table-column sortable prop="name" label="题册名">
+            </el-table-column>
+            <el-table-column prop="comment" label="备注">
+            </el-table-column>
+            <el-table-column prop="count" label="题目数">
+            </el-table-column>
+            <el-table-column sortable label="创建时间" prop="createdTime">
+                <template slot-scope="scope">
+                    <x-time-label :timestamp="scope.row.createdTime"></x-time-label>
+                </template>
+            </el-table-column>
+            <el-table-column sortable label="修改时间" prop="updatedTime">
+                <template slot-scope="scope">
+                    <x-time-label :timestamp="scope.row.updatedTime"></x-time-label>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <x-confirm-dialog text="确认删除？" @confirm="onDelete(scope.row.id)">
+                        <el-button slot="reference" size="mini" type="danger">删除</el-button>
+                    </x-confirm-dialog>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-card>
+</template>
+<script>
+    Vue.component('x-admin-subpage-book', {
+        template: "#x-admin-subpage-book",
+        data: function () {
+            return {
+                data: [],
+                loading: true,
+            };
+        },
+
+        beforeMount: function () {
+            this.update();
+        },
+
+        methods: {
+            update: function () {
+                this.loading = true;
+                network.get("/api/exercise-book").then((data) => {
+                    this.data = data;
+                    this.loading = false;
+                });
+            },
+
+            onDelete: function (id) {
+                this.loading = true;
+                network.delete("/api/exercise-book/" + id).then(() => {
+                    this.update();
+                });
+            }
+        }
+    });
+</script>

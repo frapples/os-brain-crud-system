@@ -1,0 +1,30 @@
+<template id="x-confirm-dialog">
+    <el-popover placement="top-start" width="160" v-model="visible">
+        <p>{{ text }} </p>
+        <div style="text-align: right; margin: 0 ">
+            <el-button size="mini " type="text " @click="visible=false">取消</el-button>
+            <el-button type="primary " size="mini " @click="onConfirm">确定</el-button>
+        </div>
+        <slot slot="reference" name="reference"></slot>
+    </el-popover>
+</template>
+
+<script>
+    Vue.component('x-confirm-dialog', {
+        props: ["text"],
+        template: "#x-confirm-dialog",
+
+        data: function () {
+            return {
+                visible: false
+            };
+        },
+
+        methods: {
+            onConfirm: function () {
+                this.visible = false;
+                this.$emit("confirm");
+            }
+        }
+    });
+</script>
