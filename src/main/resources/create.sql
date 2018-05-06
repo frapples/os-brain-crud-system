@@ -32,7 +32,8 @@ phone VARCHAR(20)
 
 CREATE TABLE exercise_book (
 id INTEGER PRIMARY KEY,
-name TINYTEXT NOT NULL
+name TINYTEXT NOT NULL,
+comment TINYTEXT NOT NULL
 );
 
 CREATE TABLE exercise_book_question_relation (
