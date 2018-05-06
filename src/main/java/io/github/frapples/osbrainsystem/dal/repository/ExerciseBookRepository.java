@@ -90,4 +90,13 @@ public class ExerciseBookRepository {
         exerciseBookMapper.deleteById(id);
         return true;
     }
+
+    public boolean updateBook(ExerciseBook exerciseBook) {
+        if (exerciseBook.getId() == null) {
+            return true;
+        }
+
+        exerciseBookMapper.updateById(ModelConverter.convert(exerciseBook, ExerciseBookDO.class));
+        return true;
+    }
 }

@@ -75,4 +75,8 @@ public class QuestionService {
     public ResponseDTO deleteBook(Integer id) {
         return ResponseDTO.ofSuccess(exerciseBookRepository.deleteBook(id));
     }
+
+    public ResponseDTO updateBook(ExerciseBook exerciseBook) {
+        return ResponseDTO.ofSuccess(exerciseBookRepository.updateBook(exerciseBook));
+    }
 }

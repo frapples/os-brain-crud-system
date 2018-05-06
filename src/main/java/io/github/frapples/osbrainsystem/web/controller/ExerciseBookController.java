@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -31,6 +32,18 @@ public class ExerciseBookController {
     public ResponseDTO addBook(ExerciseBook exerciseBook) {
         log.info("Add book: {}", exerciseBook);
         return questionService.addBook(exerciseBook);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseDTO addBook(@PathVariable Integer id, @RequestParam String name, @RequestParam String comment) {
+        ExerciseBook exerciseBook = ExerciseBook.builder()
+            .id(id)
+            .name(name)
+            .comment(comment)
+            .build();
+        log.info("Edit book: {}", id, exerciseBook);
+        return questionService.updateBook(exerciseBook);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

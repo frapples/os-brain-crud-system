@@ -1,6 +1,6 @@
 
 <template id="x-book-add-form">
-<el-dialog title="添加题册" :visible.sync="dialogFormVisible">
+<el-dialog :title="mode == 'edit' ? '修改题册' : '添加题册'" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="题册名称">
             <el-input v-model="form.name"></el-input>
@@ -19,6 +19,12 @@
 <script>
     Vue.component('x-book-add-form', {
         template: "#x-book-add-form",
+        props: {
+            data: {
+                default: null
+            },
+            mode: {}
+        },
         data: function () {
             return {
                 form: {
@@ -30,18 +36,40 @@
             };
         },
 
+        watch: {
+            data: {
+                handler: function (val, oldVal) {
+                    if (!_.isEmpty(val)) {
+                        this.form = _.clone(val);
+                    }
+                },
+                immediate: true
+            },
+
+        },
+
         methods: {
-            open: function () {
+            open: function (data) {
                 this.dialogFormVisible = true;
+                this.form = _.clone(data);
             },
 
             onSubmit: function () {
+                if (this.mode == "edit") {
+                    network.put("/api/exercise-book/" + this.form.id, this.form).then((success) => {
+                        this.loading = false;
+                        this.dialogFormVisible = false;
+                        this.$emit("after-submit");
+                    });
 
-                network.post("/api/exercise-book", this.form).then((success) => {
-                    this.loading = false;
-                    this.dialogFormVisible = false;
-                    this.$emit("after-added");
-                });
+                } else {
+                    network.post("/api/exercise-book", this.form).then((success) => {
+                        this.loading = false;
+                        this.dialogFormVisible = false;
+                        this.$emit("after-submit");
+                    });
+                }
+
 
             }
         },

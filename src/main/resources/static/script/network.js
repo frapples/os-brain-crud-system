@@ -32,6 +32,9 @@
                 title: 'Error',
                 message: 'Network error'
             });
+            return new Promise(function(resolve, reject) {
+                reject();
+            });
         };
 
         self.post = function (url, data) {
