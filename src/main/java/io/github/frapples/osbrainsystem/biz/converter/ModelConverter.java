@@ -1,22 +1,39 @@
 package io.github.frapples.osbrainsystem.biz.converter;
 
+import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import io.github.frapples.osbrainsystem.biz.model.Admin;
-import io.github.frapples.osbrainsystem.dal.dao.AdminDO;
-import io.github.frapples.osbrainsystem.dal.utils.SecurityUtils;
+public class ModelConverter {
 
-public class ModelConverter extends DefaultConverter {
+    public static <S, T> T convert(S src, Class<T> dstClass) {
+        try {
+            if (src instanceof Converter) {
+                Converter converter = (Converter) src;
+                T dst = (T) converter.convertTo(dstClass.newInstance());
+                return dst;
+            } else if (Converter.class.isAssignableFrom(dstClass)) {
+                Converter converter = (Converter) dstClass.newInstance();
+                T dst = (T) converter.convertFrom(src);
+                return dst;
+            } else {
+                throw new ConvertException(
+                    String.format("Class %s and %s at least one is Converter", src.getClass(), dstClass));
+            }
 
-    public static AdminDO convert(Admin admin, Class<AdminDO> clazz) {
-        AdminDO adminDO = convert((Object)admin, clazz);
-
-        Preconditions.checkNotNull(adminDO);
-
-        if (!Strings.isNullOrEmpty(admin.getPassword())) {
-            adminDO.setPasswordHash(SecurityUtils.sha256(admin.getPassword()));
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
         }
-        return adminDO;
+
+    }
+
+    public static <M, D> List<M> convert(List<D> srcList, Class<M> destClass) {
+        ArrayList<M> results = Lists.newArrayList();
+
+        for (D src : srcList) {
+            results.add(convert(src, destClass));
+        }
+        return results;
     }
 }

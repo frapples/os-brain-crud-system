@@ -16,4 +16,5 @@ public class QuestionDO extends BaseDO {
     private String content;
     private String answerContent;
     private String type;
+    private String choiseOption;
 }

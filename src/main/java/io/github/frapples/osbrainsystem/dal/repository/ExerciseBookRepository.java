@@ -96,7 +96,8 @@ public class ExerciseBookRepository {
             return true;
         }
 
-        exerciseBookMapper.updateById(ModelConverter.convert(exerciseBook, ExerciseBookDO.class));
+        exerciseBookMapper.updateById(
+            ModelConverter.convert(exerciseBook, ExerciseBookDO.class));
         return true;
     }
 }

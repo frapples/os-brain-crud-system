@@ -1,5 +1,7 @@
 package io.github.frapples.osbrainsystem.biz.model;
 
+import io.github.frapples.osbrainsystem.biz.converter.Converter;
+import io.github.frapples.osbrainsystem.dal.dao.ExerciseBookDO;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExerciseBook {
+public class ExerciseBook implements Converter<ExerciseBook, ExerciseBookDO> {
     private Integer id;
     private String name;
     private String comment;
