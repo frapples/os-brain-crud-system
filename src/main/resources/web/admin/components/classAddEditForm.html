@@ -1,0 +1,99 @@
+
+
+
+<template id="x-class-add-edit-form">
+<el-dialog :title="mode == 'edit' ? '修改' : '添加'" :visible.sync="dialogFormVisible">
+        <el-form :model="form" v-loading="loading" label-position="left" label-width="120px">
+          <el-form-item label="班级名称">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+        <el-form-item label="入学年份" >
+            <el-select v-model="form.startYear" placeholder="请选择">
+                    <el-option
+                      v-for="year in yearRange()"
+                      :key="year"
+                      :label="year"
+                      :value="year">
+                      <span>{{ year }}届</span>
+                    </el-option>
+                  </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="onSubmit" :loading="loading">确 定</el-button>
+        </div>
+      </el-dialog>
+</template>
+
+<script>
+    Vue.component('x-class-add-edit-form', {
+        template: "#x-class-add-edit-form",
+        props: {
+            data: {
+                default: null
+            },
+            mode: {
+                default: "add"
+            }
+        },
+        data: function () {
+            return {
+                form: {
+                },
+                loading: false,
+                dialogFormVisible: false
+            };
+        },
+
+        watch: {
+            data: {
+                handler: function (val, oldVal) {
+                    if (!_.isNil(val)) {
+                        this.form = _.clone(val);
+                    }
+                },
+                immediate: true
+            },
+
+        },
+
+        methods: {
+            open: function (data) {
+                this.dialogFormVisible = true;
+                if (!_.isNil(data)) {
+                    this.form = _.clone(data);
+                }
+            },
+
+            onSubmit: function () {
+                if (this.mode == "edit") {
+                    network.put("/api/class/" + this.form.id, this.form).then((success) => {
+                        this.loading = false;
+                        this.dialogFormVisible = false;
+                        this.$emit("after-submit");
+                    });
+
+                } else {
+                    network.post("/api/class", this.form).then((success) => {
+                        this.loading = false;
+                        this.dialogFormVisible = false;
+                        this.$emit("after-submit");
+                    });
+                }
+
+
+            },
+
+            yearRange: function () {
+                var year = (new Date()).getFullYear();
+                var years = [];
+                for (var i = -15; i <= 15; i++) {
+                    years.push(year + i);
+                }
+                return years;
+            }
+        },
+
+    });
+</script>

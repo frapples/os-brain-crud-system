@@ -17,6 +17,7 @@
 <vue-import th:replace="admin/subpages/book"></vue-import>
 <vue-import th:replace="admin/subpages/question"></vue-import>
 <vue-import th:replace="admin/subpages/task"></vue-import>
+<vue-import th:replace="admin/subpages/class"></vue-import>
 
 
 <vue-import th:replace="components/timeLabel"></vue-import>
@@ -42,6 +43,10 @@
 
                 <transition name="el-fade-in">
                     <x-admin-subpage-task v-if="selectIndex == 'task'"></x-admin-subpage-task>
+                </transition>
+
+                <transition name="el-fade-in">
+                    <x-admin-subpage-class v-if="selectIndex == 'class'"></x-admin-subpage-class>
                 </transition>
 
             </el-main>
