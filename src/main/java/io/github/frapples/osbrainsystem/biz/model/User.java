@@ -1,5 +1,6 @@
 package io.github.frapples.osbrainsystem.biz.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import io.github.frapples.osbrainsystem.biz.converter.Converter;
 import io.github.frapples.osbrainsystem.dal.dao.UserDO;
 import lombok.AllArgsConstructor;
@@ -18,4 +19,6 @@ public class User implements Converter<User, UserDO> {
     private String classId;
     private String email;
     private String phone;
+    private String className;
+    private Integer classStartYear;
 }

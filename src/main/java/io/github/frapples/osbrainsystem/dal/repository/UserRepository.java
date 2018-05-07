@@ -1,6 +1,7 @@
 package io.github.frapples.osbrainsystem.dal.repository;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import io.github.frapples.osbrainsystem.biz.converter.ModelConverter;
 import io.github.frapples.osbrainsystem.biz.model.User;
 import io.github.frapples.osbrainsystem.dal.dao.UserDO;
@@ -24,10 +25,14 @@ public class UserRepository {
         }
     }
 
-    public List<User> getUsers() {
-        List<UserDO> dos = userMapper.selectList(new EntityWrapper<>());
+    public Page<User> getUsers(Page<User> page) {
+        // List<UserDO> dos = userMapper.selectList(new EntityWrapper<>());
+        List<UserDO> dos = userMapper.selectWithClass(page, new EntityWrapper<>());
         List<User> users = ModelConverter.convert(dos, User.class);
-        return users;
+        page.setRecords(users);
+        // FIXME: Total of page wrong. This is a temp patch
+        page.setTotal(userMapper.selectCount(new EntityWrapper<>()));
+        return page;
     }
 
     public Optional<User> getUser(String studentId) {

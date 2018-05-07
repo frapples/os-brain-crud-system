@@ -18,10 +18,12 @@
 <vue-import th:replace="admin/subpages/question"></vue-import>
 <vue-import th:replace="admin/subpages/task"></vue-import>
 <vue-import th:replace="admin/subpages/class"></vue-import>
+<vue-import th:replace="admin/subpages/student"></vue-import>
 
 
 <vue-import th:replace="components/timeLabel"></vue-import>
 <vue-import th:replace="components/confirmDialog"></vue-import>
+<vue-import th:replace="components/paginationTable"></vue-import>
 
 <div id="app">
     <el-container style="min-height: 100vh">
@@ -47,6 +49,10 @@
 
                 <transition name="el-fade-in">
                     <x-admin-subpage-class v-if="selectIndex == 'class'"></x-admin-subpage-class>
+                </transition>
+
+                <transition name="el-fade-in">
+                    <x-admin-subpage-student v-if="selectIndex == 'student'"></x-admin-subpage-student>
                 </transition>
 
             </el-main>

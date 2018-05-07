@@ -1,5 +1,6 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import io.github.frapples.osbrainsystem.biz.model.User;
 import io.github.frapples.osbrainsystem.biz.service.AccountService;
 import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -30,8 +32,8 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseDTO<List<User>> getUsers() {
-        return accountService.getUsers();
+    public ResponseDTO<Page<User>> getUsers(@RequestParam Integer page, @RequestParam Integer size) {
+        return accountService.getUsers(page, size);
     }
 
     @RequestMapping(value = "/user/{studentId}", method = RequestMethod.GET)

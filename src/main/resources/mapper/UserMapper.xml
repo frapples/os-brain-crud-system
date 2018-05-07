@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.frapples.osbrainsystem.dal.mapper.UserMapper">
+
+
+  <select id="selectWithClass" resultType="io.github.frapples.osbrainsystem.dal.dao.UserDO">
+    SELECT
+    user.id AS id,
+    user.name AS name,
+    user.student_id AS studentId,
+    user.class_id AS classId,
+    user.email AS email,
+    user.phone AS phone,
+    user.created_time AS createdTime,
+    user.updated_time AS updatedTime,
+
+    school_class.name AS className,
+    school_class.start_year AS classStartYear
+
+    FROM user, school_class
+    <where>
+
+      user.class_id = school_class.id
+    </where>
+    ${ew.sqlSegment}
+  </select>
+
+</mapper>

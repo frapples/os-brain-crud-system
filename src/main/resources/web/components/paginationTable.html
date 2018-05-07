@@ -1,0 +1,58 @@
+<template id="x-pagination-table">
+    <div>
+        <el-table :data="data.records" v-loading="loading" border style="width: 100%">
+            <slot></slot>
+        </el-table>
+        <el-pagination v-loading="loading"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="data.current"
+        :page-sizes="[20, 50, 100, 150]"
+        :page-size="data.size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="data.total">
+        </el-pagination>
+    </div>
+</template>
+
+<script>
+    Vue.component('x-pagination-table', {
+        props: ["ajaxLoad"],
+        template: "#x-pagination-table",
+        data: function () {
+            return {
+                loading: true,
+                data: {
+                    records: [],
+                    size: 20,
+                    current: 1,
+                    total: 0
+                },
+            };
+        },
+
+        beforeMount: function () {
+            this.load();
+        },
+
+        methods: {
+            load: function() {
+                this.loading = true;
+                this.ajaxLoad(this.data.current, this.data.size).then((data) => {
+                    this.data = data;
+                    this.loading = false;
+                });
+            },
+
+            handleSizeChange: function (size) {
+                this.data.size = size;
+                this.load();
+            },
+
+            handleCurrentChange: function(current) {
+                this.data.current = current;
+                this.load();
+            }
+        }
+    });
+</script>
