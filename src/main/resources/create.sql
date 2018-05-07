@@ -62,6 +62,7 @@ CREATE TABLE question (
 id INTEGER PRIMARY KEY,
 content TEXT NOT NULL,
 answer_content TEXT NOT NULL,
+choise_option TEXT,
 type CHAR(10) NOT NULL,
 created_time TIMESTAMP NOT NULL,
 updated_time TIMESTAMP NOT NULL

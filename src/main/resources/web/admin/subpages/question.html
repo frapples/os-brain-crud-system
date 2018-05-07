@@ -1,0 +1,108 @@
+<template id="x-admin-subpage-question">
+    <el-card class="box-card" shadow="never">
+        <el-tabs v-model="activeName">
+            <el-tab-pane label="单项选择题" name="first">
+                <div v-for="question in data['SINGLE_CHOICE']">
+                    <el-card shadow="hover" style="margin-top: 10px">
+                            <div slot="header" class="clearfix">
+                                <span>
+                                    {{ question.content }}
+                                </span>
+                                <div style="float: right; padding: 3px 0">
+                                    <el-rate :value="3.7" disabled show-score text-color="#ff9900">
+                                    </el-rate>
+                                </div>
+                            </div>
+                            <div>
+                                <el-radio-group :value="question.answerContent">
+                                    <el-radio v-for="option in question.choiseOption"
+                                     :label="option.label" > {{option.label }}. {{ option.content }} </el-radio>
+                                </el-radio-group>
+                            </div>
+                    </el-card>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane label="多项选择题" name="second">
+                <div v-for="question in data['MULTI_CHOICE']">
+                    <el-card shadow="hover" style="margin-top: 10px">
+                            <div slot="header" class="clearfix">
+                                <span>
+                                    {{ question.content }}
+                                </span>
+                                <div style="float: right; padding: 3px 0">
+                                    <el-rate :value="3.7" disabled show-score text-color="#ff9900">
+                                    </el-rate>
+                                </div>
+                            </div>
+                            <div>
+                                <el-checkbox :value="question.answerContent.search(option.label) >= 0"
+                                 v-for="option in question.choiseOption">
+                                 {{option.label }}. {{ option.content }}
+                                </el-checkbox>
+                            </div>
+                    </el-card>
+                </div>
+                </el-tab-pane>
+            <el-tab-pane label="填空题" name="third">
+                <div v-for="question in data['FILL_BLANK']">
+                    <el-card shadow="hover" style="margin-top: 10px">
+                            <div slot="header" class="clearfix">
+                                <span>
+                                    {{ question.content }}
+                                </span>
+                                <div style="float: right; padding: 3px 0">
+                                    <el-rate :value="3.7" disabled show-score text-color="#ff9900">
+                                    </el-rate>
+                                </div>
+                            </div>
+                            <div>
+                                {{ question.answerContent }}
+                            </div>
+                    </el-card>
+                </div>
+
+            </el-tab-pane>
+            <el-tab-pane label="问答题" name="fourth">
+                <div v-for="question in data['TEXT']">
+                    <el-card shadow="hover" style="margin-top: 10px">
+                            <div slot="header" class="clearfix">
+                                <span>
+                                    {{ question.content }}
+                                </span>
+                                <div style="float: right; padding: 3px 0">
+                                    <el-rate :value="3.7" disabled show-score text-color="#ff9900">
+                                    </el-rate>
+                                </div>
+                            </div>
+                            <div>
+                                {{ question.answerContent }}
+                            </div>
+                    </el-card>
+                </div>
+            </el-tab-pane>
+        </el-tabs>
+    </el-card>
+</template>
+<script>
+    Vue.component('x-admin-subpage-question', {
+        template: "#x-admin-subpage-question",
+        data: function () {
+            return {
+                data: {
+                    FILL_BLANK: [],
+                    MULTI_CHOICE: [],
+                    SINGLE_CHOICE: [],
+                    TEXT:[], 
+                },
+                activeName: "first"
+            };
+        },
+
+        beforeMount: function () {
+            network.get("/api/question/grouped")
+                .then((data) => {
+                    this.data = data;
+                });
+        }
+    });
+</script>

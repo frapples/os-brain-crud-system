@@ -23,7 +23,9 @@
             data: {
                 default: null
             },
-            mode: {}
+            mode: {
+                default: "add"
+            }
         },
         data: function () {
             return {
@@ -39,7 +41,7 @@
         watch: {
             data: {
                 handler: function (val, oldVal) {
-                    if (!_.isEmpty(val)) {
+                    if (!_.isNil(val)) {
                         this.form = _.clone(val);
                     }
                 },
@@ -51,7 +53,9 @@
         methods: {
             open: function (data) {
                 this.dialogFormVisible = true;
-                this.form = _.clone(data);
+                if (!_.isNil(data)) {
+                    this.form = _.clone(data);
+                }
             },
 
             onSubmit: function () {

@@ -15,6 +15,7 @@
 <vue-import th:replace="commons/siderbar"></vue-import>
 
 <vue-import th:replace="admin/subpages/book"></vue-import>
+<vue-import th:replace="admin/subpages/question"></vue-import>
 
 
 <vue-import th:replace="components/timeLabel"></vue-import>
@@ -32,6 +33,10 @@
             <el-main>
                 <transition name="el-fade-in">
                     <x-admin-subpage-book v-if="selectIndex == 'book'"></x-admin-subpage-book>
+                </transition>
+
+                <transition name="el-fade-in">
+                    <x-admin-subpage-question v-if="selectIndex == 'question'"></x-admin-subpage-book>
                 </transition>
 
             </el-main>
