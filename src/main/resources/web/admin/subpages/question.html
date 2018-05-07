@@ -1,8 +1,24 @@
 <template id="x-admin-subpage-question">
     <el-card class="box-card" shadow="never">
-        <el-tabs v-model="activeName">
+        <div slot="header" class="clearfix">
+            <div>
+                <span>题目列表 </span>
+                <div style="float: right; padding: 3px 0; margin-top: -7px">
+                    <el-input size="mini" placeholder="输入以搜索..." v-model="searchText">
+                        <el-button 
+                        size="mini"
+                        slot="append"
+                        icon="el-icon-search"
+                        type="primary"
+                        @click="onSearch(searchText)"></el-button>
+                    </el-input>
+                </div>
+            </div>
+        </div>
+
+        <el-tabs v-model="activeName" tab-position="left">
             <el-tab-pane label="单项选择题" name="first">
-                <div v-for="question in data['SINGLE_CHOICE']">
+                <div v-for="question in showData['SINGLE_CHOICE']">
                     <el-card shadow="hover" style="margin-top: 10px">
                             <div slot="header" class="clearfix">
                                 <span>
@@ -23,7 +39,7 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="多项选择题" name="second">
-                <div v-for="question in data['MULTI_CHOICE']">
+                <div v-for="question in showData['MULTI_CHOICE']">
                     <el-card shadow="hover" style="margin-top: 10px">
                             <div slot="header" class="clearfix">
                                 <span>
@@ -44,7 +60,7 @@
                 </div>
                 </el-tab-pane>
             <el-tab-pane label="填空题" name="third">
-                <div v-for="question in data['FILL_BLANK']">
+                <div v-for="question in showData['FILL_BLANK']">
                     <el-card shadow="hover" style="margin-top: 10px">
                             <div slot="header" class="clearfix">
                                 <span>
@@ -63,7 +79,7 @@
 
             </el-tab-pane>
             <el-tab-pane label="问答题" name="fourth">
-                <div v-for="question in data['TEXT']">
+                <div v-for="question in showData['TEXT']">
                     <el-card shadow="hover" style="margin-top: 10px">
                             <div slot="header" class="clearfix">
                                 <span>
@@ -94,6 +110,13 @@
                     SINGLE_CHOICE: [],
                     TEXT:[], 
                 },
+                showData: {
+                    FILL_BLANK: [],
+                    MULTI_CHOICE: [],
+                    SINGLE_CHOICE: [],
+                    TEXT:[], 
+                },
+                searchText: "",
                 activeName: "first"
             };
         },
@@ -102,7 +125,22 @@
             network.get("/api/question/grouped")
                 .then((data) => {
                     this.data = data;
+                    this.showData = _.cloneDeep(this.data);
                 });
+        },
+
+        methods:  {
+            onSearch: function (text) {
+                this.showData = _.mapValues(this.data, (questions) => {
+                    return _.filter(questions, (question) => {
+                        var p1 = question.content.search(text) >= 0 ||
+                            question.answerContent.search(text) >= 0;
+
+                        var p2 = JSON.stringify(question.choiseOption).search(text) >= 0;
+                        return p1 || p2;
+                    });
+                });
+            }
         }
     });
 </script>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.frapples.osbrainsystem.dal.mapper.TaskMapper">
+
+
+  <select id="selectWithBook" resultType="java.util.Map">
+    SELECT
+    task.id AS id,
+    task.start_time AS startTime,
+    task.end_time AS endTime,
+    task.exercise_book_id AS exerciseBookId,
+    task.created_time AS createdTime,
+    task.updated_time AS updatedTime,
+
+    book.name AS bookName,
+    book.comment AS bookComment
+
+    FROM task, exercise_book AS book
+    <where>
+     task.exercise_book_id = book.id
+    </where>
+    ${ew.sqlSegment}
+  </select>
+
+</mapper>

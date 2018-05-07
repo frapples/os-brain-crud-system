@@ -16,7 +16,6 @@
 
 <vue-import th:replace="admin/subpages/book"></vue-import>
 <vue-import th:replace="admin/subpages/question"></vue-import>
-<vue-import th:replace="admin/subpages/task"></vue-import>
 
 
 <vue-import th:replace="components/timeLabel"></vue-import>
@@ -28,22 +27,8 @@
             <x-header></x-header>
         </el-header>
         <el-container>
-            <el-aside width="220px">
-                <x-siderbar @select="onSelect"></x-siderbar>
-            </el-aside>
             <el-main>
-                <transition name="el-fade-in">
-                    <x-admin-subpage-book v-if="selectIndex == 'book'"></x-admin-subpage-book>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-question v-if="selectIndex == 'question'"></x-admin-subpage-book>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-task v-if="selectIndex == 'task'"></x-admin-subpage-task>
-                </transition>
-
+                <x-admin-subpage-question></x-admin-subpage-question>
             </el-main>
         </el-container>
     </el-container>
@@ -54,17 +39,10 @@
 
         data: function () {
             return {
-                selectIndex: "counterOrder",
             };
         },
 
         methods:  {
-            onSelect: function (index, path) {
-                console.log(index);
-                this.$emit("select", index, path);
-                this.selectIndex = index;
-            },
-
         },
     });
 

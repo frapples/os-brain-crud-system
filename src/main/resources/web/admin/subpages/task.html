@@ -1,39 +1,34 @@
 
+<vue-import th:replace="admin/components/taskAddEditForm"></vue-import>
 
-<vue-import th:replace="admin/components/bookAddForm"></vue-import>
-
-<template id="x-admin-subpage-book">
+<template id="x-admin-subpage-task">
     <el-card class="box-card">
         <div slot="header" class="clearfix">
-            <span>习题集</span>
-            <x-book-add-form ref="form" @after-submit="update"></x-book-add-form>
+            <span>任务布置</span>
+            <x-task-add-edit-form ref="form" @after-submit="update"></x-task-add-edit-form>
             <el-button style="float: right; padding: 3px 0"
              type="text"
               @click="$refs.form.open()">
               添加
             </el-button>
         </div>
-        <x-book-add-form mode="edit" ref="editform" @after-submit="update"></x-book-add-form>
+        <x-task-add-edit-form mode="edit" ref="editform" @after-submit="update"></x-task-add-edit-form>
         <el-table :data="data" v-loading="loading" border style="width: 100%">
-            <el-table-column sortable prop="name" label="题册名">
-            </el-table-column>
-            <el-table-column prop="comment" label="备注">
-            </el-table-column>
-            <el-table-column prop="count" label="题目数">
-            </el-table-column>
-            <el-table-column sortable label="创建时间" prop="createdTime">
+            <el-table-column sortable prop="startTime" label="允许时间段">
                 <template slot-scope="scope">
-                    <x-time-label :timestamp="scope.row.createdTime"></x-time-label>
+                    <span>
+                    {{ formatDateTime(scope.row.startTime) }}
+                        -
+                    {{ formatDateTime(scope.row.endTime) }}
+                    </span>
                 </template>
             </el-table-column>
-            <el-table-column sortable label="修改时间" prop="updatedTime">
-                <template slot-scope="scope">
-                    <x-time-label :timestamp="scope.row.updatedTime"></x-time-label>
-                </template>
+            <el-table-column prop="bookName" label="题册名称">
+            </el-table-column>
+            <el-table-column prop="bookComment" label="题册备注">
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="gotoDetail">详情</el-button>
                     <el-button size="mini" @click="$refs.editform.open(scope.row)">编辑</el-button>
                     <x-confirm-dialog text="确认删除？" @confirm="onDelete(scope.row.id)">
                         <el-button slot="reference" size="mini" type="danger">删除</el-button>
@@ -44,8 +39,8 @@
     </el-card>
 </template>
 <script>
-    Vue.component('x-admin-subpage-book', {
-        template: "#x-admin-subpage-book",
+    Vue.component('x-admin-subpage-task', {
+        template: "#x-admin-subpage-task",
         data: function () {
             return {
                 data: [],
@@ -58,9 +53,11 @@
         },
 
         methods: {
+            formatDateTime: formatDateTime,
+
             update: function () {
                 this.loading = true;
-                network.get("/api/exercise-book").then((data) => {
+                network.get("/api/task").then((data) => {
                     this.data = data;
                     this.loading = false;
                 });
@@ -68,14 +65,7 @@
 
             onDelete: function (id) {
                 this.loading = true;
-                network.delete("/api/exercise-book/" + id).then(() => {
-                    this.update();
-                });
             },
-
-            gotoDetail: function () {
-                window.open("/page/admin/bookDetail");
-            }
         }
     });
 </script>

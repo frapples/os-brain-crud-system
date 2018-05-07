@@ -68,15 +68,26 @@ created_time TIMESTAMP NOT NULL,
 updated_time TIMESTAMP NOT NULL
 );
 
+CREATE TABLE task (
+id INTEGER PRIMARY KEY,
+exercise_book_id INTEGER NOT NULL,
+start_time TIMESTAMP,
+end_time TIMESTAMP,
+created_time TIMESTAMP NOT NULL,
+updated_time TIMESTAMP NOT NULL,
+FOREIGN KEY(exercise_book_id) REFERENCES exercise_book(id)
+);
 
 CREATE TABLE exercise_record (
 id INTEGER PRIMARY KEY,
 student_id INTEGER NOT NULL,
 start_time TIMESTAMP NOT NULL,
 end_time TIMESTAMP,
+task_id INTEGER NOT NULL,
 created_time TIMESTAMP NOT NULL,
 updated_time TIMESTAMP NOT NULL,
-FOREIGN KEY(student_id) REFERENCES user(student_id)
+FOREIGN KEY(student_id) REFERENCES user(student_id),
+FOREIGN KEY(task_id) REFERENCES task(id)
 );
 
 CREATE TABLE exercise_record_reply (
@@ -87,6 +98,6 @@ answer_content TEXT NOT NULL,
 created_time TIMESTAMP NOT NULL,
 updated_time TIMESTAMP NOT NULL,
 FOREIGN KEY(exercise_record_id) REFERENCES exercise_record(id),
-FOREIGN KEY(exercise_record_id) REFERENCES exercise_record(id),
+FOREIGN KEY(question_id) REFERENCES question(id),
 UNIQUE(exercise_record_id, question_id)
 );
