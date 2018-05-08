@@ -4,7 +4,27 @@
         <div slot="header" class="clearfix">
             <span>学生列表</span>
         </div>
-        <x-pagination-table :ajax-load="ajaxLoad" border style="width: 100%">
+        <el-form :inline="true" :model="searchForm">
+            <el-form-item label="班级">
+                <el-select v-loading="loading" v-model="searchForm.classId" placeholder="">
+                    <el-option v-for="c in classes" :key="c.id" :label="c.name" :value="c.id">
+                        <span style="float: left">{{ c.name }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ c.startYear }}届 </span>
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="学号">
+                <el-input v-model="searchForm.studentId" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+                <el-input v-model="searchForm.name" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSerach" >查询</el-button>
+            </el-form-item>
+        </el-form>
+
+        <x-pagination-table ref="table" :ajax-load="ajaxLoad" border style="width: 100%">
             <el-table-column sortable prop="name" label="姓名">
             </el-table-column>
             <el-table-column sortable prop="studentId" label="学号">
@@ -30,17 +50,37 @@
         template: "#x-admin-subpage-student",
         data: function () {
             return {
+                searchForm: {
+                },
+                loading: true,
+                classes: true,
             };
         },
+
+        beforeMount: function () {
+                this.loading = true;
+                network.get("/api/class").then((data) => {
+                    this.classes = data;
+                    this.loading = false;
+                });
+        },
+
         methods: {
             ajaxLoad: function (page, size) {
                 return network.get("/api/user", {
                     page: page,
-                    size: size
+                    size: size,
+                    studentId: this.searchForm.studentId,
+                    name: this.searchForm.name,
+                    classId: this.searchForm.classId
                 });
             },
 
             formatDateTime: formatDateTime,
+
+            onSerach: function() {
+                this.$refs.table.load();
+            },
 
             onDelete: function (id) {
                 this.loading = true;

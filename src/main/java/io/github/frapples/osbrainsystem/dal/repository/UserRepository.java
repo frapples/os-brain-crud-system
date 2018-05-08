@@ -1,11 +1,15 @@
 package io.github.frapples.osbrainsystem.dal.repository;
 
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import io.github.frapples.osbrainsystem.biz.converter.ModelConverter;
 import io.github.frapples.osbrainsystem.biz.model.User;
 import io.github.frapples.osbrainsystem.dal.dao.UserDO;
+import io.github.frapples.osbrainsystem.dal.ext.ConditionExt;
 import io.github.frapples.osbrainsystem.dal.mapper.UserMapper;
+import io.github.frapples.osbrainsystem.dal.query.UserFilterQuery;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +29,15 @@ public class UserRepository {
         }
     }
 
-    public Page<User> getUsers(Page<User> page) {
+    public Page<User> getUsers(Page<User> page, UserFilterQuery userFilterQuery) {
         // List<UserDO> dos = userMapper.selectList(new EntityWrapper<>());
-        List<UserDO> dos = userMapper.selectWithClass(page, new EntityWrapper<>());
+        Wrapper ew =  ConditionExt.create()
+            .eqWhenNotEmpty("user.name", userFilterQuery.getName())
+            .eqWhenNotEmpty("user.student_id", userFilterQuery.getStudentId())
+            .eqWhenNotEmpty("user.class_id", userFilterQuery.getClassId());
+        List<UserDO> dos = userMapper.selectWithClass(page, (Wrapper<UserDO>) ew);
         List<User> users = ModelConverter.convert(dos, User.class);
         page.setRecords(users);
-        // FIXME: Total of page wrong. This is a temp patch
-        page.setTotal(userMapper.selectCount(new EntityWrapper<>()));
         return page;
     }
 

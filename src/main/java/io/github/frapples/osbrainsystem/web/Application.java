@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = "io.github.frapples.osbrainsystem")
 @MapperScan("io.github.frapples.osbrainsystem.dal.*")
 public class Application {
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

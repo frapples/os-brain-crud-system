@@ -1,7 +1,7 @@
 package io.github.frapples.osbrainsystem.biz.service;
 
-import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
-import io.github.frapples.osbrainsystem.biz.dto.ResponseStatusEnum;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseStatusEnum;
 import io.github.frapples.osbrainsystem.biz.model.Admin;
 import io.github.frapples.osbrainsystem.dal.repository.AdminRepository;
 import io.github.frapples.osbrainsystem.dal.utils.SecurityUtils;

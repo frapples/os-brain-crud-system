@@ -1,11 +1,10 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
-import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.SchoolClass;
 import io.github.frapples.osbrainsystem.biz.service.AccountService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

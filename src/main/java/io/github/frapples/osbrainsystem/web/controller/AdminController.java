@@ -1,11 +1,9 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
 import com.google.common.base.Preconditions;
-import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.Admin;
 import io.github.frapples.osbrainsystem.biz.service.AdminService;
-import java.time.Instant;
-import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

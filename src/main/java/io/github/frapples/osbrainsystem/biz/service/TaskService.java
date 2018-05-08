@@ -1,6 +1,6 @@
 package io.github.frapples.osbrainsystem.biz.service;
 
-import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.Task;
 import io.github.frapples.osbrainsystem.dal.repository.TaskRepository;
 import java.util.List;

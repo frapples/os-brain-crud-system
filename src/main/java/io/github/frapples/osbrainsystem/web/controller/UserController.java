@@ -1,10 +1,10 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.github.frapples.osbrainsystem.dal.query.UserFilterQuery;
 import io.github.frapples.osbrainsystem.biz.model.User;
 import io.github.frapples.osbrainsystem.biz.service.AccountService;
-import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
-import java.util.List;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +32,9 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseDTO<Page<User>> getUsers(@RequestParam Integer page, @RequestParam Integer size) {
-        return accountService.getUsers(page, size);
+    public ResponseDTO<Page<User>> getUsers(@RequestParam Integer page, @RequestParam Integer size
+        , UserFilterQuery userFilterQuery) {
+        return accountService.getUsers(page, size, userFilterQuery);
     }
 
     @RequestMapping(value = "/user/{studentId}", method = RequestMethod.GET)

@@ -1,9 +1,9 @@
 package io.github.frapples.osbrainsystem.biz.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.plugins.pagination.Pagination;
-import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
-import io.github.frapples.osbrainsystem.biz.dto.ResponseStatusEnum;
+import io.github.frapples.osbrainsystem.dal.query.UserFilterQuery;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseStatusEnum;
 import io.github.frapples.osbrainsystem.biz.model.SchoolClass;
 import io.github.frapples.osbrainsystem.biz.model.User;
 import io.github.frapples.osbrainsystem.dal.repository.SchoolClassRepository;
@@ -29,10 +29,9 @@ public class AccountService {
     }
 
 
-    public ResponseDTO<Page<User>> getUsers(int page, int size) {
-        Page<User> page_ = new Page<User>(page, size);
-        Page<User> users = userRepository.getUsers(page_);
-        page_.setSearchCount(true);
+    public ResponseDTO<Page<User>> getUsers(int page, int size, UserFilterQuery userFilterQuery) {
+        Page<User> users = userRepository.getUsers(new Page<User>(page, size),
+            userFilterQuery);
         return ResponseDTO.ofSuccess(users);
     }
 

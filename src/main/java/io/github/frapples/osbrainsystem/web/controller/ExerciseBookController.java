@@ -1,6 +1,6 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
-import io.github.frapples.osbrainsystem.biz.dto.ResponseDTO;
+import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
 import io.github.frapples.osbrainsystem.biz.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;

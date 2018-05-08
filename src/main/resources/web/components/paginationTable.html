@@ -3,7 +3,7 @@
         <el-table :data="data.records" v-loading="loading" border style="width: 100%">
             <slot></slot>
         </el-table>
-        <el-pagination v-loading="loading"
+        <el-pagination v-if="data.total > 0" v-loading="loading"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="data.current"
