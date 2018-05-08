@@ -79,4 +79,35 @@ public class QuestionService {
     public ResponseDTO updateBook(ExerciseBook exerciseBook) {
         return ResponseDTO.ofSuccess(exerciseBookRepository.updateBook(exerciseBook));
     }
+
+    public ResponseDTO updateBookQuestions(Integer bookId, List<Integer> questionIds) {
+        if (bookId == null) {
+            return ResponseDTO.ofSuccess(null);
+        }
+
+        List<Integer> ids = exerciseBookRepository.getQuestionsIdByBookId(bookId);
+        for (int id: ids) {
+            if (!questionIds.contains(id)) {
+                exerciseBookRepository.deleteBookQuestion(bookId, id);
+            }
+        }
+
+        for (int id : questionIds) {
+            if (!ids.contains(id)) {
+                exerciseBookRepository.addBookQuestion(bookId, id);
+            }
+        }
+
+        return ResponseDTO.ofSuccess(null);
+    }
+
+    public ResponseDTO getBookQuestionsGrouped(Integer id) {
+        return ResponseDTO.ofSuccess(
+            exerciseBookRepository.getBookQuestionsGrouped(id));
+    }
+
+    public ResponseDTO deleteBooksQuestion(Integer bookId, Integer questionId) {
+        return ResponseDTO.ofSuccess(
+            exerciseBookRepository.deleteBookQuestion(bookId, questionId));
+    }
 }

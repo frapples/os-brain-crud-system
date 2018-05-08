@@ -6,7 +6,7 @@
         </div>
         <el-form :inline="true" :model="searchForm">
             <el-form-item label="班级">
-                <el-select v-loading="loading" v-model="searchForm.classId" placeholder="">
+                <el-select clearable v-loading="loading" v-model="searchForm.classId" placeholder="">
                     <el-option v-for="c in classes" :key="c.id" :label="c.name" :value="c.id">
                         <span style="float: left">{{ c.name }}</span>
                         <span style="float: right; color: #8492a6; font-size: 13px">{{ c.startYear }}届 </span>

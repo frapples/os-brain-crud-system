@@ -21,6 +21,8 @@
                     {{ scope.row.startYear }}届
                 </template>
             </el-table-column>
+            <el-table-column sortable prop="userCount" label="已注册人数">
+            </el-table-column>
             <el-table-column sortable label="创建时间" prop="createdTime">
                 <template slot-scope="scope">
                     <x-time-label :timestamp="scope.row.createdTime"></x-time-label>

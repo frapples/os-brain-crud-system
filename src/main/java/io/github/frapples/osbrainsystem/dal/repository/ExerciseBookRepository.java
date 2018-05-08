@@ -4,15 +4,19 @@ import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import io.github.frapples.osbrainsystem.biz.converter.ModelConverter;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
 import io.github.frapples.osbrainsystem.biz.model.Question;
+import io.github.frapples.osbrainsystem.biz.model.QuestionTypeEnum;
 import io.github.frapples.osbrainsystem.dal.dao.ExerciseBbookQuestionRelationDO;
 import io.github.frapples.osbrainsystem.dal.dao.ExerciseBookDO;
+import io.github.frapples.osbrainsystem.dal.dao.QuestionDO;
 import io.github.frapples.osbrainsystem.dal.mapper.ExerciseBookMapper;
 import io.github.frapples.osbrainsystem.dal.mapper.ExerciseBookQuestionRelationMapper;
 import io.github.frapples.osbrainsystem.dal.mapper.QuestionMapper;
 import io.github.frapples.osbrainsystem.dal.utils.CrudRepositoryUtils;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,7 +67,7 @@ public class ExerciseBookRepository {
             return exerciseBookQuestionRelationMapper.selectList(
                 new EntityWrapper<ExerciseBbookQuestionRelationDO>()
                     .eq("exercise_book_id", id)).stream()
-                .map(ExerciseBbookQuestionRelationDO::getExerciseBookId)
+                .map(ExerciseBbookQuestionRelationDO::getQuestionId)
                 .collect(Collectors.toList());
         }
     }
@@ -91,6 +95,21 @@ public class ExerciseBookRepository {
         return true;
     }
 
+    public boolean deleteBookQuestion(Integer bookId, Integer questionId) {
+        exerciseBookQuestionRelationMapper.delete(new EntityWrapper<ExerciseBbookQuestionRelationDO>()
+        .eq("exercise_book_id", bookId)
+        .eq("question_id", questionId));
+        return true;
+    }
+
+    public boolean addBookQuestion(Integer bookId, Integer questionId) {
+        return exerciseBookQuestionRelationMapper.insert(ExerciseBbookQuestionRelationDO.builder()
+            .exerciseBookId(bookId)
+            .questionId(questionId)
+            .orderKey(0)
+            .build()) > 0;
+    }
+
     public boolean updateBook(ExerciseBook exerciseBook) {
         if (exerciseBook.getId() == null) {
             return true;
@@ -99,5 +118,23 @@ public class ExerciseBookRepository {
         exerciseBookMapper.updateById(
             ModelConverter.convert(exerciseBook, ExerciseBookDO.class));
         return true;
+    }
+
+    public EnumMap<QuestionTypeEnum, List<Question>> getBookQuestionsGrouped(Integer bookId) {
+        EnumMap<QuestionTypeEnum, List<Question>> maps = Maps.newEnumMap(QuestionTypeEnum.class);
+        if (bookId == null) {
+            return maps;
+        }
+
+        for (QuestionTypeEnum type : QuestionTypeEnum.values()) {
+            List<QuestionDO> dos = exerciseBookMapper.selectQuestions(
+                new EntityWrapper<ExerciseBookDO>()
+                    .eq("book.id", bookId)
+                    .eq("type", type.getType()));
+            List<Question> result = ModelConverter.convert(dos, Question.class);
+            maps.put(type, result);
+        }
+
+        return maps;
     }
 }

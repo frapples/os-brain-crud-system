@@ -26,6 +26,7 @@ public class Question implements Converter<Question, QuestionDO> {
         private String content;
     }
 
+    private Integer id;
     private String content;
     private String answerContent;
     private String type;

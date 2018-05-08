@@ -18,4 +18,5 @@ public class SchoolClass implements Converter<SchoolClass, SchoolClassDO> {
     private String name;
     private Integer startYear;
     private Date createdTime;
+    private Integer userCount;
 }

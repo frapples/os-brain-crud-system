@@ -1,5 +1,6 @@
 package io.github.frapples.osbrainsystem.dal.dao;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,4 +15,6 @@ import lombok.NoArgsConstructor;
 public class SchoolClassDO extends BaseDO {
     private String name;
     private Integer startYear;
+    @TableField(exist = false)
+    private Integer userCount;
 }

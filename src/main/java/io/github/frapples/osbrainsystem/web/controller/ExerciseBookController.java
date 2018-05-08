@@ -1,8 +1,14 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
+import io.github.frapples.osbrainsystem.biz.model.Question;
+import io.github.frapples.osbrainsystem.biz.model.QuestionTypeEnum;
 import io.github.frapples.osbrainsystem.biz.service.QuestionService;
+import java.util.EnumMap;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,7 +63,7 @@ public class ExerciseBookController {
     @ResponseBody
     public ResponseDTO getQuestionIds(@PathVariable Integer id) {
         log.info("get question ids by id: {}", id);
-        return questionService.getBookById(id);
+        return questionService.getQuestionsIdByBookId(id);
     }
 
     @RequestMapping(value = "/{id}/question", method = RequestMethod.GET)
@@ -65,6 +71,28 @@ public class ExerciseBookController {
     public ResponseDTO getQuestions(@PathVariable Integer id) {
         log.info("get questions by id: {}", id);
         return questionService.getBookById(id);
+    }
+
+    @RequestMapping(value = "/{bookId}/question/{questionId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseDTO deleteBooksQuestion(@PathVariable Integer bookId, @PathVariable Integer questionId) {
+        log.info("delete book's question by book id: {}, question id", bookId, questionId);
+        return questionService.deleteBooksQuestion(bookId, questionId);
+    }
+
+    @RequestMapping(value = "/{id}/question/grouped", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseDTO getQuestionsGrouped(@PathVariable Integer id) {
+        log.info("get questions grouped by id: {}", id);
+        return questionService.getBookQuestionsGrouped(id);
+    }
+
+    @RequestMapping(value = "/{id}/question", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseDTO updateQuestions(@PathVariable Integer id, @RequestParam("questionIds") String quesionIdsJson) {
+        log.info("update questions by id: {}, question ids: {}", id, quesionIdsJson);
+        List<Integer> questionIds = JSON.parseObject(quesionIdsJson, new TypeReference<List<Integer>>(){});
+        return questionService.updateBookQuestions(id, questionIds);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

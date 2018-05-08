@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.frapples.osbrainsystem.dal.mapper.ExerciseBookMapper">
+
+
+  <select id="selectQuestions" resultType="io.github.frapples.osbrainsystem.dal.dao.QuestionDO">
+    SELECT
+    question.id AS id,
+    question.content AS content,
+    question.answer_content AS answerContent,
+    question.choise_option AS choiseOption,
+    question.created_time AS createdTime,
+    question.updated_time AS updatedTime
+
+    FROM question, exercise_book AS book, exercise_book_question_relation AS r
+    <where>
+      r.question_id = question.id AND r.exercise_book_id = book.id
+    </where>
+    ${ew.sqlSegment}
+  </select>
+
+</mapper>

@@ -1,0 +1,224 @@
+<vue-import th:replace="components/confirmDialog"></vue-import>
+
+<template id="x-admin-component-question-list">
+    <el-tabs v-model="activeName" tab-position="left">
+        <el-tab-pane label="单项选择题" name="first">
+            <div v-for="(question, index) in showData['SINGLE_CHOICE']">
+                <el-card shadow="hover" style="margin-top: 10px">
+                    <div slot="header" class="clearfix">
+                        <span>
+                            {{ index + 1 }}. {{ question.content }}
+                        </span>
+                        <div style="float: right; padding: 3px 0">
+                            <x-confirm-dialog v-if="removable" text="确认删除？" @confirm="onRemove(question.id)">
+                                <el-button slot="reference" size="mini" type="text">从题册移除</el-button>
+                            </x-confirm-dialog>
+                            <el-checkbox v-if="multiSelectable"
+                             label="选择"
+                              @input="$set(selectedTable, question.id, arguments[0])"
+                             :value="selectedTable[question.id]">
+                            </el-checkbox>
+                        </div>
+                    </div>
+                    <div>
+                        <el-radio-group :value="question.answerContent">
+                            <el-radio v-for="option in question.choiseOption" :label="option.label"> {{option.label }}. {{ option.content }} </el-radio>
+                        </el-radio-group>
+                    </div>
+                </el-card>
+            </div>
+        </el-tab-pane>
+        <el-tab-pane label="多项选择题" name="second">
+            <div v-for="(question, index) in showData['MULTI_CHOICE']">
+                <el-card shadow="hover" style="margin-top: 10px">
+                    <div slot="header" class="clearfix">
+                        <span>
+                            {{ index + 1 }}. {{ question.content }}
+                        </span>
+                        <div style="float: right; padding: 3px 0">
+                            <x-confirm-dialog v-if="removable" text="确认删除？" @confirm="onRemove(question.id)">
+                                <el-button slot="reference" size="mini" type="text">从题册移除</el-button>
+                            </x-confirm-dialog>
+                            <el-checkbox v-if="multiSelectable"
+                             label="选择"
+                              @input="$set(selectedTable, question.id, arguments[0])"
+                             :value="selectedTable[question.id]">
+                            </el-checkbox>
+                        </div>
+                    </div>
+                    <div>
+                        <el-checkbox :value="question.answerContent.search(option.label) >= 0" v-for="option in question.choiseOption">
+                            {{option.label }}. {{ option.content }}
+                        </el-checkbox>
+                    </div>
+                </el-card>
+            </div>
+        </el-tab-pane>
+        <el-tab-pane label="填空题" name="third">
+            <div v-for="(question, index) in showData['FILL_BLANK']">
+                <el-card shadow="hover" style="margin-top: 10px">
+                    <div slot="header" class="clearfix">
+                        <span>
+                            {{ index + 1 }}. {{ question.content }}
+                        </span>
+                        <div style="float: right; padding: 3px 0">
+                            <x-confirm-dialog v-if="removable" text="确认删除？" @confirm="onRemove(question.id)">
+                                <el-button slot="reference" size="mini" type="text">从题册移除</el-button>
+                            </x-confirm-dialog>
+                            <el-checkbox v-if="multiSelectable"
+                             label="选择"
+                              @input="$set(selectedTable, question.id, arguments[0])"
+                             :value="selectedTable[question.id]">
+                            </el-checkbox>
+                        </div>
+                    </div>
+                    <div>
+                        {{ question.answerContent }}
+                    </div>
+                </el-card>
+            </div>
+
+        </el-tab-pane>
+        <el-tab-pane label="问答题" name="fourth">
+            <div v-for="(question, index) in showData['TEXT']">
+                <el-card shadow="hover" style="margin-top: 10px">
+                    <div slot="header" class="clearfix">
+                        <span>
+                            {{ index + 1 }}. {{ question.content }}
+                        </span>
+                        <div style="float: right; padding: 3px 0">
+                            <x-confirm-dialog v-if="removable" text="确认删除？" @confirm="onRemove(question.id)">
+                                <el-button slot="reference" size="mini" type="text">从题册移除</el-button>
+                            </x-confirm-dialog>
+                            <el-checkbox v-if="multiSelectable"
+                             label="选择"
+                              @input="$set(selectedTable, question.id, arguments[0])"
+                             :value="selectedTable[question.id]">
+                            </el-checkbox>
+                        </div>
+                    </div>
+                    <div>
+                        {{ question.answerContent }}
+                    </div>
+                </el-card>
+            </div>
+        </el-tab-pane>
+    </el-tabs>
+</template>
+<script>
+    Vue.component('x-admin-component-question-list', {
+        props: {
+            removable: {
+                default: false
+            },
+
+            multiSelectable: {
+                default: false
+            },
+
+            loadSource: {
+                default: "all"
+            },
+
+
+            filter: {
+                default: function () {
+                    return {};
+                },
+            },
+
+            selected: {
+                default: function () {
+                    return {};
+                }
+            },
+        },
+        template: "#x-admin-component-question-list",
+        data: function () {
+            return {
+                data: {
+                    FILL_BLANK: [],
+                    MULTI_CHOICE: [],
+                    SINGLE_CHOICE: [],
+                    TEXT: [],
+                },
+                showData: {
+                    FILL_BLANK: [],
+                    MULTI_CHOICE: [],
+                    SINGLE_CHOICE: [],
+                    TEXT: [],
+                },
+                searchText: "",
+                activeName: "first",
+                selectedTable: {},
+            };
+        },
+
+        watch: {
+            filter: {
+                handler: function (val, oldVal) {
+                    this.load(val);
+                },
+                immediate: true
+            },
+
+            selected: {
+                handler: function (val, oldVal) {
+                    if (!_.isEqual(val, oldVal)) {
+                        this.selectedTable = _.clone(val);
+                    }
+                },
+                immediate: true
+            },
+
+            selectedTable: {
+                handler: function (val, oldVal) {
+                    this.$emit("selected-change", val);
+                },
+                immediate: true
+            },
+
+        },
+
+        beforeMount: function () {
+        },
+
+        methods: {
+            load: function (filter) {
+                if (_.isNil(filter)) {
+                    filter = this.filter;
+                }
+
+                if (this.loadSource == "all") {
+                    network.get("/api/question/grouped", filter)
+                        .then((data) => {
+                            this.data = data;
+                            this.showData = _.cloneDeep(this.data);
+                        });
+                } else if (this.loadSource == "book") {
+                    network.get(sprintf("/api/exercise-book/%s/question/grouped", filter.bookId), filter)
+                        .then((data) => {
+                            this.data = data;
+                            this.showData = _.cloneDeep(this.data);
+                        });
+                }
+            },
+
+            search: function (text) {
+                this.showData = _.mapValues(this.data, (questions) => {
+                    return _.filter(questions, (question) => {
+                        var p1 = question.content.search(text) >= 0 ||
+                            question.answerContent.search(text) >= 0;
+
+                        var p2 = JSON.stringify(question.choiseOption).search(text) >= 0;
+                        return p1 || p2;
+                    });
+                });
+            },
+
+            onRemove(question_id) {
+                this.$emit("remove", question_id);
+            },
+        }
+    });
+</script>
