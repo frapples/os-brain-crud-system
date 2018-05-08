@@ -1,0 +1,96 @@
+<style>
+        .x-admin-subpage-about .text {
+          font-size: 14px;
+          line-height: 20px;
+        }
+      
+        .x-admin-subpage-about .item {
+          margin-bottom: 18px;
+        }
+      </style> 
+
+<template id="x-admin-subpage-about">
+    <el-card class="x-admin-subpage-about">
+        <div slot="header" class="clearfix">
+            <i class="el-icon-menu"></i>
+
+            <span>关于</span>
+        </div>
+        <el-row type="flex" :gutter="10">
+            <el-col :span="11">
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        习题模块说明
+                    </div>
+                    <div class="text item">
+                        1. 从习题系统可导入习题，并在题目管理中浏览，搜索。
+                    </div>
+                    <div class="text item">
+                        2. 可选取部分习题组成习题册，并在题册管理中管理。习题册是本系统中练习的基本单位。
+                    </div>
+                    <div class="text item">
+                        3. 可对于习题册进行权限管理，只在部分时间段对外开放，或只对部分班级开放，在任务布置中管理。
+                    </div>
+                    <div class="text item">
+                        4. 对于过去时间段的任务，无法修改；对于未来时间段的任务，可以修改以应对计划变更。
+                    </div>
+
+                </el-card>
+            </el-col>
+            <el-col :span="11">
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        记录模块说明
+                    </div>
+                    <div class="text item">
+                        1. 学生使用微信端授权登录后，后台即记录其信息，在学生列表中即可浏览查看。对于学生每一次登录和提交，后台都记录其日志信息，以用于反作弊分析。
+                    </div>
+                    <div class="text item">
+                        2. 学生可看到对其开放权限的题册并作答，答完后，生成答题记录，系统能够评分。在学生练习记录中，能够从学生的角度看到该学生历史上的所有答题情况概览。
+                    </div>
+                    <div class="text item">
+                        3. 在班级练习记录中，从班级的角度查看某次任务的所有学生答题情况概览。其中，会使用重点色标记三类异常答卷：缺席者；答题分数过低的；GPS定位与同一时间班级其它同学相差较大的。
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+        <div style="margin-bottom: 10px"></div>
+        <el-row type="flex" :gutter="10">
+            <el-col :span="11">
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        学生模块说明
+                    </div>
+                    <div class="text item">
+                        1. 管理员预先预设班级信息，这从班级预设功能里能够管理。学生使用微信客户端时，只能在预设班级中选择。
+                    </div>
+                    <div class="text item">
+                        2. 所有已注册学生都能够在学生列表中浏览查看，并拥有按班级查看及一定的搜索功能。
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="11">
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        其它说明
+                    </div>
+                    <div class="text item">
+                        1. 本系统为OS Brain习题的后台系统，还有一个基于微信的客户端，拥有登录，选题册，答题三个页面。
+                    </div>
+                    <div class="text item">
+                        2. 本后台系统基于vue技术构建，因此不支持低版本IE, 建议使用firefox或chrome.
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+    </el-card>
+</template>
+<script>
+    Vue.component('x-admin-subpage-about', {
+        template: "#x-admin-subpage-about",
+        data: function () {
+            return {
+            };
+        },
+    });
+</script>

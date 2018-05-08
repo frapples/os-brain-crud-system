@@ -19,6 +19,9 @@
 <vue-import th:replace="admin/subpages/task"></vue-import>
 <vue-import th:replace="admin/subpages/class"></vue-import>
 <vue-import th:replace="admin/subpages/student"></vue-import>
+<vue-import th:replace="admin/subpages/about"></vue-import>
+<vue-import th:replace="admin/subpages/classRecord"></vue-import>
+<vue-import th:replace="admin/subpages/studentRecord"></vue-import>
 
 <vue-import th:replace="admin/components/questionList"></vue-import>
 
@@ -56,6 +59,18 @@
                     <x-admin-subpage-student v-if="selectIndex == 'student'"></x-admin-subpage-student>
                 </transition>
 
+                <transition name="el-fade-in">
+                    <x-admin-subpage-about v-if="selectIndex == 'about'"></x-admin-subpage-about>
+                </transition>
+
+                <transition name="el-fade-in">
+                    <x-admin-subpage-class-record v-if="selectIndex == 'classRecord'"></x-admin-subpage-class-record>
+                </transition>
+
+                <transition name="el-fade-in">
+                    <x-admin-subpage-student-record v-if="selectIndex == 'studentRecord'"></x-admin-subpage-student-record>
+                </transition>
+
             </el-main>
         </el-container>
     </el-container>
@@ -66,7 +81,7 @@
 
         data: function () {
             return {
-                selectIndex: "counterOrder",
+                selectIndex: "about",
             };
         },
 

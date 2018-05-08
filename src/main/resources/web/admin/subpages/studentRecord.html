@@ -1,0 +1,92 @@
+
+
+<template id="x-admin-subpage-student-record">
+    <el-card class="box-card">
+        <div slot="header" class="clearfix">
+            <span>学生练习记录</span>
+        </div>
+
+        <el-form :inline="true" :model="searchForm">
+            <el-form-item label="选择班级">
+                <el-select clearable v-loading="loading" v-model="searchForm.classId" placeholder="">
+                    <el-option v-for="c in classes" :key="c.id" :label="c.name" :value="c.id">
+                        <span style="float: left">{{ c.name }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ c.startYear }}届 </span>
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="选择学生">
+                <el-input v-model="searchForm.studentId" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSerach" >查询</el-button>
+            </el-form-item>
+        </el-form>
+
+        <el-table :data="data" v-loading="loading" border style="width: 100%">
+            <el-table-column sortable prop="studentId" label="学号">
+            </el-table-column>
+            <el-table-column sortable prop="name" label="学生姓名">
+            </el-table-column>
+            <el-table-column sortable prop="bookName" label="答题题册">
+            </el-table-column>
+            <el-table-column sortable prop="time" label="任务时间段">
+            </el-table-column>
+            <el-table-column sortable prop="startTime" label="答题时间">
+            </el-table-column>
+            <el-table-column sortable prop="endTime" label="交卷时间">
+            </el-table-column>
+            <el-table-column sortable prop="endTime" label="判卷分数">
+            </el-table-column>
+            <el-table-column prop="IP" label="此次操作IP">
+            </el-table-column>
+            <el-table-column prop="GPS" label="此次操作GPS">
+            </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button size="mini" @click="gotoDetail(scope.row.id)">答卷详情</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-card>
+</template>
+<script>
+    Vue.component('x-admin-subpage-student-record', {
+        template: "#x-admin-subpage-student-record",
+        data: function () {
+            return {
+                data: [],
+                loading: true,
+                classes: [],
+                searchForm: {},
+            };
+        },
+
+        beforeMount: function () {
+            this.loading = true;
+            network.get("/api/class").then((data) => {
+                this.classes = data;
+                this.loading = false;
+            });
+
+            // this.update();
+        },
+
+        methods: {
+            update: function () {
+                this.loading = true;
+                network.get("/api/exercise-book").then((data) => {
+                    this.data = data;
+                    this.loading = false;
+                });
+            },
+
+            onSerach: function () {
+            },
+
+            gotoDetail: function (id) {
+                window.open("/page/admin/bookDetail?bookId=" + id);
+            }
+        }
+    });
+</script>

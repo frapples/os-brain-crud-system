@@ -4,7 +4,7 @@
     <el-tabs v-model="activeName" tab-position="left">
         <el-tab-pane label="单项选择题" name="first">
             <div v-for="(question, index) in showData['SINGLE_CHOICE']">
-                <el-card shadow="hover" style="margin-top: 10px">
+                <el-card style="margin-top: 10px">
                     <div slot="header" class="clearfix">
                         <span>
                             {{ index + 1 }}. {{ question.content }}
@@ -30,7 +30,7 @@
         </el-tab-pane>
         <el-tab-pane label="多项选择题" name="second">
             <div v-for="(question, index) in showData['MULTI_CHOICE']">
-                <el-card shadow="hover" style="margin-top: 10px">
+                <el-card  style="margin-top: 10px">
                     <div slot="header" class="clearfix">
                         <span>
                             {{ index + 1 }}. {{ question.content }}
@@ -56,7 +56,7 @@
         </el-tab-pane>
         <el-tab-pane label="填空题" name="third">
             <div v-for="(question, index) in showData['FILL_BLANK']">
-                <el-card shadow="hover" style="margin-top: 10px">
+                <el-card style="margin-top: 10px">
                     <div slot="header" class="clearfix">
                         <span>
                             {{ index + 1 }}. {{ question.content }}
@@ -81,7 +81,7 @@
         </el-tab-pane>
         <el-tab-pane label="问答题" name="fourth">
             <div v-for="(question, index) in showData['TEXT']">
-                <el-card shadow="hover" style="margin-top: 10px">
+                <el-card style="margin-top: 10px">
                     <div slot="header" class="clearfix">
                         <span>
                             {{ index + 1 }}. {{ question.content }}
