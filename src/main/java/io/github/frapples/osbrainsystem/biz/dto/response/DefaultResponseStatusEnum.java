@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum ResponseStatusEnum {
+public enum DefaultResponseStatusEnum implements ResponseStatusEnumInterface {
     SUCCESS_STATUS("SUCCESS"),
     NOT_EXIST_STATUS("NOT_EXIST");
 

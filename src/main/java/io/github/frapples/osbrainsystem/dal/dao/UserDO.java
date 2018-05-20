@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class UserDO extends BaseDO {
     private String name;
     private String studentId;
-    private String classId;
+    private Integer classId;
     private String email;
     private String phone;
     @TableField(exist = false)

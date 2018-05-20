@@ -43,4 +43,20 @@ public class UserController {
         log.info("get student with: student id: {}", studentId);
         return accountService.getUser(studentId);
     }
+
+    @RequestMapping(value = "/user/by-phone/{phone}/validation", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDTO login(@PathVariable String phone) {
+        log.info("user login first with: phone: {}", phone);
+        return accountService.userLogin(phone);
+    }
+
+    @RequestMapping(value = "/user/by-phone/{phone}/first-validation", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseDTO loginFisrt(@PathVariable String phone,
+        @RequestParam String name, @RequestParam String studentId, @RequestParam(required = false) Integer classId) {
+        log.info("user login with: phone: {}, name: {}, classId: {}, studentId: {}",
+            phone, name, classId, studentId);
+        return accountService.userLoginFirst(name, phone, studentId, classId);
+    }
 }

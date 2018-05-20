@@ -1,7 +1,7 @@
 package io.github.frapples.osbrainsystem.biz.service;
 
 import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
-import io.github.frapples.osbrainsystem.biz.dto.response.ResponseStatusEnum;
+import io.github.frapples.osbrainsystem.biz.dto.response.DefaultResponseStatusEnum;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
 import io.github.frapples.osbrainsystem.biz.model.Question;
 import io.github.frapples.osbrainsystem.biz.model.QuestionTypeEnum;
@@ -29,7 +29,7 @@ public class QuestionService {
     public ResponseDTO<ExerciseBook> getBookById(Integer id) {
         return exerciseBookRepository.getBookById(id)
             .map(ResponseDTO::ofSuccess)
-            .orElse(ResponseDTO.ofFailed(ResponseStatusEnum.NOT_EXIST_STATUS));
+            .orElse(ResponseDTO.ofFailed(DefaultResponseStatusEnum.NOT_EXIST_STATUS));
     }
 
     public ResponseDTO<List<Integer>> getQuestionsIdByBookId(Integer id) {
@@ -51,12 +51,12 @@ public class QuestionService {
 
     public ResponseDTO<Question> getQuestion(Integer id) {
         if (id == null) {
-            return ResponseDTO.ofFailed(ResponseStatusEnum.NOT_EXIST_STATUS);
+            return ResponseDTO.ofFailed(DefaultResponseStatusEnum.NOT_EXIST_STATUS);
         }
 
         return questionRepository.getQuestionById(id)
             .map(ResponseDTO::ofSuccess)
-            .orElse(ResponseDTO.ofFailed(ResponseStatusEnum.NOT_EXIST_STATUS));
+            .orElse(ResponseDTO.ofFailed(DefaultResponseStatusEnum.NOT_EXIST_STATUS));
     }
 
     public ResponseDTO<List<Question>> getQuestions() {

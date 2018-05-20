@@ -56,4 +56,18 @@ public class UserRepository {
         }
     }
 
+    public Optional<User> getUserByPhone(String phone) {
+        if (phone == null) {
+            return Optional.empty();
+        }
+        List<UserDO> resultDO = userMapper.selectList(
+            new EntityWrapper<UserDO>()
+                .eq("phone", phone));
+        List<User> result = ModelConverter.convert(resultDO, User.class);
+        if (result.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(result.get(0));
+        }
+    }
 }

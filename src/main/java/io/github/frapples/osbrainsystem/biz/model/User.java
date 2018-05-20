@@ -16,7 +16,7 @@ public class User implements Converter<User, UserDO> {
 
     private String name;
     private String studentId;
-    private String classId;
+    private Integer classId;
     private String email;
     private String phone;
     private String className;

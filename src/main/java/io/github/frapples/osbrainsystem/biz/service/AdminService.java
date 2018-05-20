@@ -1,7 +1,7 @@
 package io.github.frapples.osbrainsystem.biz.service;
 
 import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
-import io.github.frapples.osbrainsystem.biz.dto.response.ResponseStatusEnum;
+import io.github.frapples.osbrainsystem.biz.dto.response.DefaultResponseStatusEnum;
 import io.github.frapples.osbrainsystem.biz.model.Admin;
 import io.github.frapples.osbrainsystem.dal.repository.AdminRepository;
 import io.github.frapples.osbrainsystem.dal.utils.SecurityUtils;
@@ -24,12 +24,12 @@ public class AdminService {
 
     public ResponseDTO<Admin> getAdmin(Integer id) {
         if (id == null) {
-            return ResponseDTO.ofFailed(ResponseStatusEnum.NOT_EXIST_STATUS);
+            return ResponseDTO.ofFailed(DefaultResponseStatusEnum.NOT_EXIST_STATUS);
         }
 
         return adminRepository.getAdmin(id)
             .map(ResponseDTO::ofSuccess)
-            .orElse(ResponseDTO.ofFailed(ResponseStatusEnum.NOT_EXIST_STATUS));
+            .orElse(ResponseDTO.ofFailed(DefaultResponseStatusEnum.NOT_EXIST_STATUS));
     }
 
     public ResponseDTO<Boolean> check(String name, String password) {

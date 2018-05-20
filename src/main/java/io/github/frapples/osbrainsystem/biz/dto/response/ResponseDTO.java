@@ -2,6 +2,7 @@ package io.github.frapples.osbrainsystem.biz.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 @AllArgsConstructor
 @Getter
@@ -14,11 +15,15 @@ public class ResponseDTO<T> {
     private String status;
     private T data;
 
-    public static <T> ResponseDTO<T> ofSuccess(T data) {
-        return new ResponseDTO<T>(NORMAL_CODE, ResponseStatusEnum.SUCCESS_STATUS.getStatus(), data);
+    public static <T> ResponseDTO<T> ofSuccess() {
+        return ofSuccess(null);
     }
 
-    public static <T> ResponseDTO<T> ofFailed(ResponseStatusEnum status) {
+    public static <T> ResponseDTO<T> ofSuccess(T data) {
+        return new ResponseDTO<T>(NORMAL_CODE, DefaultResponseStatusEnum.SUCCESS_STATUS.getStatus(), data);
+    }
+
+    public static <T> ResponseDTO<T> ofFailed(@NonNull ResponseStatusEnumInterface status) {
         return new ResponseDTO<T>(NORMAL_CODE, status.getStatus(), null);
     }
 
