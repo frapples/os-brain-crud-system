@@ -35,9 +35,9 @@ public class WebConfig {
     public FilterRegistrationBean regexpMatcherCorsFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         // 允许 *.xxx.com 跨域
+        String[] allowOrigins = new String[]{"*"};
         // String[] allowOrigins = new String[]{"https?://(.*).xxx.com(\\:\\d+)?"};
-        // registrationBean.setFilter(new RegexpMatcherCorsFilter(allowOrigins));
-        registrationBean.setFilter(new RegexpMatcherCorsFilter());
+        registrationBean.setFilter(new RegexpMatcherCorsFilter(allowOrigins));
         return registrationBean;
     }
 }
