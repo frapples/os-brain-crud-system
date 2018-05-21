@@ -26,7 +26,7 @@ public class TaskController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseDTO addTask(@RequestParam String exerciseBookId,
+    public ResponseDTO addTask(@RequestParam Integer exerciseBookId,
         @RequestParam Long startTime,
         @RequestParam Long endTime) {
         Task task = Task.builder()
@@ -41,7 +41,7 @@ public class TaskController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseDTO editTask(@PathVariable Integer id,
-        @RequestParam String exerciseBookId,
+        @RequestParam Integer exerciseBookId,
         @RequestParam Long startTime,
         @RequestParam Long endTime) {
         Task task = Task.builder()

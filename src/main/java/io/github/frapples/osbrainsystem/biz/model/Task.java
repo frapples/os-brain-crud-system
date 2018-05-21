@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Task implements Converter<Task, TaskDO> {
     private Integer id;
-    private String exerciseBookId;
+    private Integer exerciseBookId;
     private Date startTime;
     private Date endTime;
 }

@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
-import io.github.frapples.osbrainsystem.biz.model.Question;
-import io.github.frapples.osbrainsystem.biz.model.QuestionTypeEnum;
 import io.github.frapples.osbrainsystem.biz.service.QuestionService;
-import java.util.EnumMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +97,12 @@ public class ExerciseBookController {
     public ResponseDTO deleteBook(@PathVariable Integer id) {
         log.info("delete book by id: {}", id);
         return questionService.deleteBook(id);
+    }
+
+    @RequestMapping(value = "/userspace/by-phone/{phone}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseDTO getBooksByUsersPhone(@PathVariable String phone) {
+        log.info("get questions books by phone: {}", phone);
+        return questionService.getBooksByUsersPhone(phone);
     }
 }

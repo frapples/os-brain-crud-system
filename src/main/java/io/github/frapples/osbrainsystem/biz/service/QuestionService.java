@@ -7,6 +7,8 @@ import io.github.frapples.osbrainsystem.biz.model.Question;
 import io.github.frapples.osbrainsystem.biz.model.QuestionTypeEnum;
 import io.github.frapples.osbrainsystem.dal.repository.ExerciseBookRepository;
 import io.github.frapples.osbrainsystem.dal.repository.QuestionRepository;
+import io.github.frapples.osbrainsystem.dal.repository.TaskRepository;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class QuestionService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     public ResponseDTO<List<ExerciseBook>> getBooks() {
         return ResponseDTO.ofSuccess(
@@ -109,5 +114,10 @@ public class QuestionService {
     public ResponseDTO deleteBooksQuestion(Integer bookId, Integer questionId) {
         return ResponseDTO.ofSuccess(
             exerciseBookRepository.deleteBookQuestion(bookId, questionId));
+    }
+
+    public ResponseDTO<List<ExerciseBook>> getBooksByUsersPhone(String phone) {
+        return ResponseDTO.ofSuccess(
+            taskRepository.getbooksByUsersPhone(phone));
     }
 }

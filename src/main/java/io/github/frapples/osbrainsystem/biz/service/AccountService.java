@@ -86,4 +86,9 @@ public class AccountService {
         return ResponseDTO.ofSuccess(success);
     }
 
+    public ResponseDTO<User> getUserByPhone(String phone) {
+        return userRepository.getUserByPhone(phone)
+            .map(ResponseDTO::ofSuccess)
+            .orElse(ResponseDTO.ofFailed(DefaultResponseStatusEnum.NOT_EXIST_STATUS));
+    }
 }

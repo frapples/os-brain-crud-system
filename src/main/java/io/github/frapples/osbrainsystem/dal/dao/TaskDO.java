@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @TableName("task")
 public class TaskDO extends BaseDO {
 
-    private String exerciseBookId;
+    private Integer exerciseBookId;
     private Date startTime;
     private Date endTime;
 

@@ -44,6 +44,13 @@ public class UserController {
         return accountService.getUser(studentId);
     }
 
+    @RequestMapping(value = "/user/by-phone/{phone}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseDTO<User> getUserByPhone(@PathVariable String phone) {
+        log.info("get student with: phone: {}", phone);
+        return accountService.getUserByPhone(phone);
+    }
+
     @RequestMapping(value = "/user/by-phone/{phone}/validation", method = RequestMethod.POST)
     @ResponseBody
     public ResponseDTO login(@PathVariable String phone) {
