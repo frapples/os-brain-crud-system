@@ -8,9 +8,9 @@ import io.github.frapples.osbrainsystem.biz.model.QuestionTypeEnum;
 import io.github.frapples.osbrainsystem.dal.repository.ExerciseBookRepository;
 import io.github.frapples.osbrainsystem.dal.repository.QuestionRepository;
 import io.github.frapples.osbrainsystem.dal.repository.TaskRepository;
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -116,7 +116,7 @@ public class QuestionService {
             exerciseBookRepository.deleteBookQuestion(bookId, questionId));
     }
 
-    public ResponseDTO<List<ExerciseBook>> getBooksByUsersPhone(String phone) {
+    public ResponseDTO<List<Map<String, Object>>> getBooksByUsersPhone(String phone) {
         return ResponseDTO.ofSuccess(
             taskRepository.getbooksByUsersPhone(phone));
     }

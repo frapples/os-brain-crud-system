@@ -6,6 +6,7 @@ import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseBook;
 import io.github.frapples.osbrainsystem.biz.service.QuestionService;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -101,7 +102,7 @@ public class ExerciseBookController {
 
     @RequestMapping(value = "/userspace/by-phone/{phone}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseDTO getBooksByUsersPhone(@PathVariable String phone) {
+    public ResponseDTO<List<Map<String, Object>>> getBooksByUsersPhone(@PathVariable String phone) {
         log.info("get questions books by phone: {}", phone);
         return questionService.getBooksByUsersPhone(phone);
     }

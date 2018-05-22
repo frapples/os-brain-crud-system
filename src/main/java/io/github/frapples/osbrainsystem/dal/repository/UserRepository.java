@@ -60,7 +60,7 @@ public class UserRepository {
         if (phone == null) {
             return Optional.empty();
         }
-        List<UserDO> resultDO = userMapper.selectList(
+        List<UserDO> resultDO = userMapper.selectWithClass(new Page<>(0, 1),
             new EntityWrapper<UserDO>()
                 .eq("phone", phone));
         List<User> result = ModelConverter.convert(resultDO, User.class);

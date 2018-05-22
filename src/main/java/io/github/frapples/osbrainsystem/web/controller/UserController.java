@@ -54,7 +54,7 @@ public class UserController {
     @RequestMapping(value = "/user/by-phone/{phone}/validation", method = RequestMethod.POST)
     @ResponseBody
     public ResponseDTO login(@PathVariable String phone) {
-        log.info("user login first with: phone: {}", phone);
+        log.info("user login with: phone: {}", phone);
         return accountService.userLogin(phone);
     }
 
