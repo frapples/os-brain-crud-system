@@ -2,7 +2,9 @@
 
 function getQueryString(name)
 {
-    var vars = window.location.search.substring(1).split("&");
+    //var vars = window.location.search.substring(1).split("&");
+    var search = window.location.href.split("?")[1] || "";
+    var vars = search.split("&");
     for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split("=");
         if(pair[0] == name) {
