@@ -39,59 +39,70 @@
                 <x-siderbar @select="onSelect"></x-siderbar>
             </el-aside>
             <el-main>
-                <transition name="el-fade-in">
-                    <x-admin-subpage-book v-if="selectIndex == 'book'"></x-admin-subpage-book>
+                 <transition name="el-fade-in">
+                    <router-view></router-view>
                 </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-question v-if="selectIndex == 'question'"></x-admin-subpage-book>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-task v-if="selectIndex == 'task'"></x-admin-subpage-task>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-class v-if="selectIndex == 'class'"></x-admin-subpage-class>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-student v-if="selectIndex == 'student'"></x-admin-subpage-student>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-about v-if="selectIndex == 'about'"></x-admin-subpage-about>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-class-record v-if="selectIndex == 'classRecord'"></x-admin-subpage-class-record>
-                </transition>
-
-                <transition name="el-fade-in">
-                    <x-admin-subpage-student-record v-if="selectIndex == 'studentRecord'"></x-admin-subpage-student-record>
-                </transition>
-
             </el-main>
         </el-container>
     </el-container>
 </div>
 <script>
+
+    var routes = [
+        {
+            path: '/book',
+            component: { template: '<x-admin-subpage-book></x-admin-subpage-book>' } 
+        }, {
+            path: '/question',
+            component: { template: '<x-admin-subpage-question></x-admin-subpage-question>' } 
+        }, {
+            path: '/task', 
+            component: { template: '<x-admin-subpage-task></x-admin-subpage-task>' } 
+        }, {
+            path: '/class',
+            component: { template: '<x-admin-subpage-class></x-admin-subpage-class>' } 
+        }, { 
+            path: '/student',
+            component: { template: '<x-admin-subpage-student></x-admin-subpage-student>' } 
+        }, {
+            path: '/about',
+            component: { template: '<x-admin-subpage-about></x-admin-subpage-about>' } 
+        }, {
+            path: '/classRecord',
+            component: { template: '<x-admin-subpage-class-record></x-admin-subpage-class-record>' }
+        }, {
+            path: '/studentRecord',
+            component: { template: '<x-admin-subpage-student-record></x-admin-subpage-student-record>' } 
+        },
+    ]
+
+    var router = new VueRouter({
+        routes: routes
+    });
+
     new Vue({
+        router: router,
         el: "#app",
 
         data: function () {
             return {
-                selectIndex: "about",
             };
         },
 
         methods:  {
             onSelect: function (index, path) {
+                this.$router.push(index);
                 console.log(index);
                 this.$emit("select", index, path);
-                this.selectIndex = index;
             },
 
+        },
+
+        beforeMount: function() {
+            if (this.$router.currentRoute.fullPath == "/") {
+                this.$router.push("about");
+            }
+            console.log(this.$router.currentRoute);
         },
     });
 

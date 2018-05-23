@@ -150,7 +150,31 @@
             };
         },
 
+        created: function() {
+            this.$router.afterEach((to, from) => {
+                this.setIndexFromRoute(to);
+            });
+
+        },
+
+        beforeMount: function() {
+            if (this.$router.currentRoute.fullPath == "/") {
+                this.$router.push("about");
+            } else {
+                this.setIndexFromRoute(this.$router.currentRoute);
+            }
+            console.log(this.$router.currentRoute);
+        },
+
+
         methods: {
+            setIndexFromRoute: function(route) {
+                var index = route.path.split("/")[1];
+                console.log("Router afterEach:");
+                console.log(index);
+                this.defaultIndex = index;
+            },
+
             onSelect: function (index, path) {
                 this.$emit("select", index, path);
             },
