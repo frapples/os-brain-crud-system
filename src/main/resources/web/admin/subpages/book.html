@@ -19,14 +19,16 @@
             </el-table-column>
             <el-table-column prop="comment" label="备注">
             </el-table-column>
-            <el-table-column prop="count" label="题目数">
+            <el-table-column prop="count" label="题目数" width="70">
             </el-table-column>
-            <el-table-column sortable label="创建时间" prop="createdTime">
+            <el-table-column prop="score" label="总分" width="70">
+            </el-table-column>
+            <el-table-column sortable label="创建时间" prop="createdTime" width="120">
                 <template slot-scope="scope">
                     <x-time-label :timestamp="scope.row.createdTime"></x-time-label>
                 </template>
             </el-table-column>
-            <el-table-column sortable label="修改时间" prop="updatedTime">
+            <el-table-column sortable label="修改时间" prop="updatedTime" width="120">
                 <template slot-scope="scope">
                     <x-time-label :timestamp="scope.row.updatedTime"></x-time-label>
                 </template>

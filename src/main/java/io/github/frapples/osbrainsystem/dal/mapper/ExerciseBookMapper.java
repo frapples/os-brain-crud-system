@@ -11,5 +11,6 @@ import org.apache.ibatis.annotations.Param;
 public interface ExerciseBookMapper extends BaseMapper<ExerciseBookDO> {
 
     List<QuestionDO> selectQuestions(@Param("ew") Wrapper<ExerciseBookDO> wrapper);
+    Float sumScore(@Param("ew") Wrapper<ExerciseBookDO> wrapper);
 
 }

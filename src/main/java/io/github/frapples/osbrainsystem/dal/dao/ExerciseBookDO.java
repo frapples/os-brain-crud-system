@@ -15,4 +15,5 @@ public class ExerciseBookDO extends BaseDO {
 
     private String name;
     private String comment;
+    private Float score;
 }

@@ -22,6 +22,7 @@
 <vue-import th:replace="admin/subpages/about"></vue-import>
 <vue-import th:replace="admin/subpages/classRecord"></vue-import>
 <vue-import th:replace="admin/subpages/studentRecord"></vue-import>
+<vue-import th:replace="admin/subpages/recordByTask"></vue-import>
 
 <vue-import th:replace="admin/components/questionList"></vue-import>
 
@@ -73,7 +74,13 @@
         }, {
             path: '/studentRecord',
             component: { template: '<x-admin-subpage-student-record></x-admin-subpage-student-record>' } 
+        }, {
+            path: '/recordByTask',
+            component: { template: '<x-admin-subpage-record-by-task></x-admin-subpage-record-by-task>' } 
         },
+
+
+
     ]
 
     var router = new VueRouter({

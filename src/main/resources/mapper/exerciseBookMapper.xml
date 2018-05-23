@@ -23,4 +23,13 @@
     ${ew.sqlSegment}
   </select>
 
+  <select id="sumScore" resultType="java.lang.Float">
+    SELECT sum(question.score)
+    FROM question, exercise_book AS book, exercise_book_question_relation AS r
+    <where>
+      r.question_id = question.id AND r.exercise_book_id = book.id
+    </where>
+    ${ew.sqlSegment}
+  </select>
+
 </mapper>

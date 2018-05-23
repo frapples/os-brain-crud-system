@@ -1,0 +1,110 @@
+
+<template id="x-admin-subpage-record-by-task">
+    <el-card class="box-card">
+        <div slot="header" class="clearfix">
+            <span>练习记录</span>
+        </div>
+
+        <el-form :inline="true" :model="searchForm">
+            <el-form-item label="选择任务">
+                <el-select clearable v-loading="loading" v-model="searchForm.taskId" placeholder="" style="width: 400px">
+                    <el-option v-for="t in tasks" :key="t.id" :label="simpleTaskLabel(t)" :value="t.id">
+                        <div style="width: 400px">
+                            <span style="float: left">{{ formatTime(t.startTime) }}至{{ formatTime(t.endTime) }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px">{{ t.bookName }} </span>
+                        </div>
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="选择学生">
+                <el-input v-model="searchForm.studentId" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSerach" >查询</el-button>
+            </el-form-item>
+        </el-form>
+
+        <el-table :data="data" v-loading="loading" border style="width: 100%">
+            <el-table-column sortable prop="studentId" label="学号">
+            </el-table-column>
+            <el-table-column sortable prop="name" label="学生姓名">
+            </el-table-column>
+            <el-table-column sortable prop="bookName" label="答题题册">
+            </el-table-column>
+            <el-table-column sortable prop="time" label="任务时间段">
+            </el-table-column>
+            <el-table-column sortable prop="startTime" label="答题时间">
+            </el-table-column>
+            <el-table-column sortable prop="endTime" label="交卷时间">
+            </el-table-column>
+            <el-table-column sortable prop="endTime" label="判卷分数">
+            </el-table-column>
+            <el-table-column prop="IP" label="此次操作IP">
+            </el-table-column>
+            <el-table-column prop="GPS" label="此次操作GPS">
+            </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button size="mini" @click="gotoDetail(scope.row.id)">答卷详情</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-card>
+</template>
+<script>
+    Vue.component('x-admin-subpage-record-by-task', {
+        template: "#x-admin-subpage-record-by-task",
+        data: function () {
+            return {
+                data: [],
+                loading: true,
+                tasks: {},
+                searchForm: {},
+            };
+        },
+
+        beforeMount: function () {
+            var taskId = Number(getQueryString("taskId"));
+            if (taskId) {
+                this.$set(this.searchForm, "taskId", taskId);
+            }
+
+            this.loading = true;
+            network.get("/api/task").then((data) => {
+                this.tasks = data;
+                this.tasks = _.sortBy(this.tasks, (t) => t.startTime);
+
+                this.tasks.so
+                this.loading = false;
+            });
+
+            // this.update();
+        },
+
+        methods: {
+            update: function () {
+                this.loading = true;
+                network.get("/api/exercise-book").then((data) => {
+                    this.data = data;
+                    this.loading = false;
+                });
+            },
+
+            formatTime: function(timestamp) {
+                return moment(Number(timestamp)).format("YYYY-MM-DD HH:mm");
+            },
+
+            simpleTaskLabel: function(t) {
+                var format = (ts) => moment(Number(ts)).format("MM-DD HH:mm");
+                return format(t.startTime) + " - " + format(t.endTime) + "   (" + t.bookName + ")";
+            },
+
+            onSerach: function () {
+            },
+
+            gotoDetail: function (id) {
+                window.open("/page/admin/bookDetail?bookId=" + id);
+            }
+        }
+    });
+</script>

@@ -103,6 +103,7 @@ public class QuestionService {
             }
         }
 
+        exerciseBookRepository.updateBookScore(bookId);
         return ResponseDTO.ofSuccess(null);
     }
 

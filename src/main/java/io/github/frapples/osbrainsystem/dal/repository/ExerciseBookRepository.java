@@ -19,6 +19,7 @@ import io.github.frapples.osbrainsystem.dal.utils.CrudRepositoryUtils;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,5 +138,20 @@ public class ExerciseBookRepository {
         }
 
         return maps;
+    }
+
+    public boolean updateBookScore(Integer bookId) {
+        if (bookId == null) {
+            return false;
+        }
+
+        float score = exerciseBookMapper.sumScore(new EntityWrapper<ExerciseBookDO>()
+            .eq("book.id", bookId));
+
+        exerciseBookMapper.updateById(new ExerciseBookDO() {{
+            setId(bookId);
+            setScore(score);
+        }});
+        return true;
     }
 }

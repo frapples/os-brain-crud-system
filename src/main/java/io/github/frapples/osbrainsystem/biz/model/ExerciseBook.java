@@ -19,4 +19,5 @@ public class ExerciseBook implements Converter<ExerciseBook, ExerciseBookDO> {
     private Date createdTime;
     private Date updatedTime;
     private Integer count;
+    private Float score;
 }
