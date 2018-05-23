@@ -16,5 +16,5 @@ public class ExerciseRecordDO extends BaseDO {
     private Date startTime;
     private Date endTime;
     private Integer taskId;
-    private Integer studentId;
+    private Integer userId;
 }

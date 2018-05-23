@@ -17,5 +17,6 @@ public class ExerciseRecord implements Converter<ExerciseRecord, ExerciseRecordD
     private Date startTime;
     private Date endTime;
     private Integer taskId;
+    private Integer userId;
     private Integer studentId;
 }
