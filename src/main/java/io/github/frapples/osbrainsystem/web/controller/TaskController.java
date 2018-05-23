@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseRecord;
 import io.github.frapples.osbrainsystem.biz.model.Task;
+import io.github.frapples.osbrainsystem.biz.service.ExerciseRecordService;
 import io.github.frapples.osbrainsystem.biz.service.TaskService;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,9 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private ExerciseRecordService exerciseRecordService;
 
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -79,5 +83,12 @@ public class TaskController {
             .endTime(new Date())
             .build();
         return taskService.replyTask(exerciseRecord, answers);
+    }
+
+    @RequestMapping(value = "/{taskId}/exercise-record", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseDTO getRecords(@PathVariable Integer taskId) {
+        log.info("Get records of task {}", taskId);
+        return exerciseRecordService.getRecordDetailsByTaskId(taskId);
     }
 }

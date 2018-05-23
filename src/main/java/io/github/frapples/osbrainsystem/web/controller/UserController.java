@@ -1,10 +1,13 @@
 package io.github.frapples.osbrainsystem.web.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.github.frapples.osbrainsystem.biz.service.ExerciseRecordService;
 import io.github.frapples.osbrainsystem.dal.query.UserFilterQuery;
 import io.github.frapples.osbrainsystem.biz.model.User;
 import io.github.frapples.osbrainsystem.biz.service.AccountService;
 import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,9 @@ public class UserController {
 
    @Autowired
    private AccountService accountService;
+
+   @Autowired
+   private ExerciseRecordService exerciseRecordService;
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     @ResponseBody
@@ -65,5 +71,12 @@ public class UserController {
         log.info("user login with: phone: {}, name: {}, classId: {}, studentId: {}",
             phone, name, classId, studentId);
         return accountService.userLoginFirst(name, phone, studentId, classId);
+    }
+
+    @RequestMapping(value = "/user/{studentId}/exercise-record", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseDTO<List<Map<String, Object>>> getUserExerciseRecordDetails(@PathVariable String studentId) {
+        log.info("get student exercise record details with: student id: {}", studentId);
+        return exerciseRecordService.getUserExerciseRecordDetails(studentId);
     }
 }

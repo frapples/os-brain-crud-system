@@ -10,3 +10,11 @@
 .el-header {
     padding: 0 0 0 0 !important;
 }
+
+.el-table .warning-row {
+background: oldlace;
+}
+
+.el-table .success-row {
+background: #f0f9eb;
+}

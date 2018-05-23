@@ -27,4 +27,32 @@
     ${ew.sqlSegment}
   </select>
 
+
+  <select id="selectWithUserAndTaskAndQuestion" resultType="java.util.Map">
+    SELECT
+    record.id AS id,
+    record.start_time AS startTime,
+    record.end_time AS endTime,
+    record.task_id AS taskId,
+    record.score AS score,
+    record.ip AS ip,
+    record.gps AS gps,
+    record.created_time AS createdTime,
+    record.updated_time AS updatedTime,
+    user.student_id AS studentId,
+    user.name AS studentName,
+    book.name AS bookName,
+    school_class.name AS className,
+    school_class.start_year AS classStartYear
+
+    FROM exercise_record AS record, user AS user, task, exercise_book AS book, school_class
+    <where>
+      record.user_id = user.id
+      AND record.task_id = task.id
+      AND task.exercise_book_id = book.id
+      AND user.class_id = school_class.id
+    </where>
+    ${ew.sqlSegment}
+  </select>
+
 </mapper>

@@ -6,9 +6,9 @@
             <span>学生练习记录</span>
         </div>
 
-        <el-form :inline="true" :model="searchForm">
+        <el-form :inline="true" :model="searchForm" v-loading="formLoading">
             <el-form-item label="选择班级">
-                <el-select clearable v-loading="loading" v-model="searchForm.classId" placeholder="">
+                <el-select clearable v-model="searchForm.classId" placeholder="" @change="classChange">
                     <el-option v-for="c in classes" :key="c.id" :label="c.name" :value="c.id">
                         <span style="float: left">{{ c.name }}</span>
                         <span style="float: right; color: #8492a6; font-size: 13px">{{ c.startYear }}届 </span>
@@ -16,7 +16,12 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="选择学生">
-                <el-input v-model="searchForm.studentId" placeholder=""></el-input>
+                <el-select clearable v-model="searchForm.studentId" placeholder="">
+                    <el-option v-for="s in students" :key="s.id" :label="s.name" :value="s.studentId">
+                        <span style="float: left">{{ s.name }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ s.studentId }} </span>
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSerach" >查询</el-button>
@@ -24,29 +29,46 @@
         </el-form>
 
         <el-table :data="data" v-loading="loading" border style="width: 100%">
-            <el-table-column sortable prop="studentId" label="学号">
+
+            <el-table-column sortable prop="studentId" label="学号" width="120">
             </el-table-column>
-            <el-table-column sortable prop="name" label="学生姓名">
+            <el-table-column sortable prop="studentName" label="姓名" width="80">
+            </el-table-column>
+            <el-table-column sortable prop="classStartYear" label="班级">
+                <template slot-scope="scope">
+                    {{ scope.row.classStartYear }}届{{ scope.row.className }}
+                </template>
             </el-table-column>
             <el-table-column sortable prop="bookName" label="答题题册">
             </el-table-column>
-            <el-table-column sortable prop="time" label="任务时间段">
-            </el-table-column>
             <el-table-column sortable prop="startTime" label="答题时间">
+                <template slot-scope="scope">
+                    <x-time-label :timestamp="scope.row.startTime"></x-time-label>
+                </template>
             </el-table-column>
             <el-table-column sortable prop="endTime" label="交卷时间">
+                <template slot-scope="scope">
+                    <x-time-label :timestamp="scope.row.endTime"></x-time-label>
+                </template>
             </el-table-column>
-            <el-table-column sortable prop="endTime" label="判卷分数">
+            <el-table-column sortable prop="scope" label="判卷分数">
+                <template slot-scope="scope">
+                    <div v-if="scope.row.score == null">
+                        <el-tag type="warning">未批改</el-tag>
+                    </div>
+                    <div v-else> {{ scope.row.score }} </div>
+                </template>
             </el-table-column>
-            <el-table-column prop="IP" label="此次操作IP">
+            <el-table-column prop="ip" label="此次操作IP">
             </el-table-column>
-            <el-table-column prop="GPS" label="此次操作GPS">
+            <el-table-column prop="gps" label="此次操作GPS">
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="gotoDetail(scope.row.id)">答卷详情</el-button>
+                    <el-button size="mini" @click="gotoDetail(scope.row.id)">详情/批改</el-button>
                 </template>
             </el-table-column>
+
         </el-table>
     </el-card>
 </template>
@@ -57,36 +79,55 @@
             return {
                 data: [],
                 loading: true,
+                formLoading: false,
                 classes: [],
-                searchForm: {},
+                students: [],
+                searchForm: {
+                    classId: null,
+                    studentId: null
+                },
             };
         },
 
         beforeMount: function () {
+            var studentId = Number(getQueryString("studentId"));
+            var classId = Number(getQueryString("classId"));
+            if (studentId && classId) {
+                this.$set(this.searchForm, "classId", classId);
+                this.$set(this.searchForm, "studentId", studentId);
+            }
+
             this.loading = true;
             network.get("/api/class").then((data) => {
                 this.classes = data;
                 this.loading = false;
+                this.onSerach();
             });
-
-            // this.update();
         },
 
         methods: {
-            update: function () {
-                this.loading = true;
-                network.get("/api/exercise-book").then((data) => {
-                    this.data = data;
-                    this.loading = false;
-                });
-            },
-
             onSerach: function () {
+                network.get(sprintf("/api/user/%s/exercise-record", this.searchForm.studentId)).then((res) => {
+                    this.data = res;
+                });
             },
 
             gotoDetail: function (id) {
                 window.open("/page/admin/bookDetail?bookId=" + id);
+            },
+
+            classChange: function (classId) {
+                this.formLoading = true;
+                network.get("/api/user", {
+                    page: 0,
+                    size: 1000,
+                    classId: classId
+                }).then((res) => {
+                    this.students = res.records;
+                    this.formLoading = false;
+                });
             }
+
         }
     });
 </script>
