@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class User implements Converter<User, UserDO> {
-
+    private Integer id;
     private String name;
     private String studentId;
     private Integer classId;

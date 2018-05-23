@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.frapples.osbrainsystem.dal.mapper.ExerciseRecordMapper">
+
+
+  <select id="selectWithUser" resultType="io.github.frapples.osbrainsystem.dal.dao.ExerciseRecordDO">
+    SELECT
+    record.id AS id,
+    record.user_id AS userId,
+    record.start_time AS startTime,
+    record.end_time AS endTime,
+    record.task_id AS taskId,
+    record.created_time AS createdTime,
+    record.updated_time AS updatedTime,
+    user.student_id AS studentId
+
+    FROM exercise_record AS record, user AS user
+    <where>
+      record.user_id = user.id
+    </where>
+    ${ew.sqlSegment}
+  </select>
+
+</mapper>

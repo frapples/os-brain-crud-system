@@ -6,6 +6,7 @@ import io.github.frapples.osbrainsystem.biz.dto.response.ResponseDTO;
 import io.github.frapples.osbrainsystem.biz.dto.response.apistatus.TaskReplyStatusEnum;
 import io.github.frapples.osbrainsystem.biz.model.ExerciseRecord;
 import io.github.frapples.osbrainsystem.biz.model.Task;
+import io.github.frapples.osbrainsystem.dal.repository.ExerciseRecordRepository;
 import io.github.frapples.osbrainsystem.dal.repository.TaskRepository;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,10 @@ public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private ExerciseRecordRepository exerciseRecordRepository;
+
 
     public ResponseDTO<List<Task>> getTasks() {
         return ResponseDTO.ofSuccess(
@@ -38,7 +43,7 @@ public class TaskService {
     }
 
     public ResponseDTO replyTask(ExerciseRecord exerciseRecord, Map<String, Object> answers) {
-        int recordId = taskRepository.updateOrInsertRecord(exerciseRecord);
+        int recordId = exerciseRecordRepository.updateOrInsertRecord(exerciseRecord);
         Optional<Task> task = taskRepository.getTask(exerciseRecord.getTaskId());
         if (!task.isPresent()) {
             return ResponseDTO.ofError();
@@ -60,7 +65,7 @@ public class TaskService {
                 return ResponseDTO.ofError();
             }
 
-            taskRepository.updateOrInsertReply(recordId, Integer.parseInt(questionId), jsonAnswer);
+            exerciseRecordRepository.updateOrInsertReply(recordId, Integer.parseInt(questionId), jsonAnswer);
         }
 
         return ResponseDTO.ofSuccess();

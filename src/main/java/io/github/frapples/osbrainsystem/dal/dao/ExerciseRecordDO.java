@@ -1,5 +1,6 @@
 package io.github.frapples.osbrainsystem.dal.dao;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -17,4 +18,6 @@ public class ExerciseRecordDO extends BaseDO {
     private Date endTime;
     private Integer taskId;
     private Integer userId;
+    @TableField(exist = false)
+    private String studentId;
 }

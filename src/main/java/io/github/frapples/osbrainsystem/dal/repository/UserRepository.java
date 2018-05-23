@@ -47,7 +47,7 @@ public class UserRepository {
         }
         List<UserDO> resultDO = userMapper.selectList(
             new EntityWrapper<UserDO>()
-                .eq("studentId", studentId));
+                .eq("student_id", studentId));
         List<User> result = ModelConverter.convert(resultDO, User.class);
         if (result.isEmpty()) {
             return Optional.empty();

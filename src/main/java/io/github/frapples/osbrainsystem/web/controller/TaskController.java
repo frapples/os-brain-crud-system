@@ -67,7 +67,7 @@ public class TaskController {
 
     @RequestMapping(value = "/{taskId}/reply", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseDTO replyTask(@PathVariable Integer taskId, @RequestParam Integer studentId,
+    public ResponseDTO replyTask(@PathVariable Integer taskId, @RequestParam String studentId,
         @RequestParam Long startTime,
         @RequestParam("answers") String jsonAnswers) {
         log.info("Reply task");

@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div>
-                        {{ question.answerContent }}
+                        {{ showFillBlankAnswer(question.answerContent) }}
                     </div>
                 </el-card>
             </div>
@@ -216,8 +216,12 @@
                 });
             },
 
-            onRemove(question_id) {
+            onRemove: function(question_id) {
                 this.$emit("remove", question_id);
+            },
+
+            showFillBlankAnswer: function (answer) {
+                return _.join(JSON.parse(answer), ", ");
             },
         }
     });
