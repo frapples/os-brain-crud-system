@@ -19,4 +19,7 @@ public class ExerciseRecord implements Converter<ExerciseRecord, ExerciseRecordD
     private Integer taskId;
     private Integer userId;
     private String studentId;
+    private Float score;
+    private String ip;
+    private String gps;
 }

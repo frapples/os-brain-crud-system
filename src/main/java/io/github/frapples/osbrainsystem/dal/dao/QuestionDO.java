@@ -17,4 +17,5 @@ public class QuestionDO extends BaseDO {
     private String answerContent;
     private String type;
     private String choiseOption;
+    private Float score;
 }

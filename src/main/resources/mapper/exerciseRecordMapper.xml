@@ -13,6 +13,9 @@
     record.start_time AS startTime,
     record.end_time AS endTime,
     record.task_id AS taskId,
+    record.score AS score,
+    record.ip AS ip,
+    record.gps AS gps,
     record.created_time AS createdTime,
     record.updated_time AS updatedTime,
     user.student_id AS studentId

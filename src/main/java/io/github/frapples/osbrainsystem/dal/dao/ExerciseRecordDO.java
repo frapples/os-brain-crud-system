@@ -20,4 +20,8 @@ public class ExerciseRecordDO extends BaseDO {
     private Integer userId;
     @TableField(exist = false)
     private String studentId;
+
+    private Float score;
+    private String ip;
+    private String gps;
 }

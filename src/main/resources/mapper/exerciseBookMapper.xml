@@ -10,6 +10,7 @@
     SELECT
     question.id AS id,
     question.content AS content,
+    question.score AS score,
     question.answer_content AS answerContent,
     question.choise_option AS choiseOption,
     question.created_time AS createdTime,

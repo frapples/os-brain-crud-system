@@ -15,4 +15,5 @@ public class ExerciseRecordReplyDO extends BaseDO {
     private Integer exerciseRecordId;
     private Integer questionId;
     private String answerContent;
+    private Float scorePercent;
 }

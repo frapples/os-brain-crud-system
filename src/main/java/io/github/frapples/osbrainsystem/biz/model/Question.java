@@ -31,6 +31,7 @@ public class Question implements Converter<Question, QuestionDO> {
     private String answerContent;
     private String type;
     private List<OptionItem> choiseOption;
+    private Float score;
 
     @Override
     public Question convertFrom(QuestionDO DO) {
