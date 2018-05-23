@@ -58,11 +58,17 @@
         },
 
         beforeMount: function () {
+                var classId = Number(getQueryString("classId"));
+                if (classId) {
+                    this.$set(this.searchForm, "classId", classId);
+                }
+
                 this.loading = true;
                 network.get("/api/class").then((data) => {
                     this.classes = data;
                     this.loading = false;
                 });
+
         },
 
         methods: {
