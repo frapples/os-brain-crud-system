@@ -17,10 +17,12 @@ spring:
       resolve-lazily: true
       max-file-size: 5MB
   datasource:
-    driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite:/home/computer/sqlite.db
-    username:
-    password:
+    driver-class-name: com.mysql.jdbc.Driver
+    # driver-class-name: org.sqlite.JDBC
+    # url: jdbc:sqlite:/home/computer/sqlite.db
+    url: jdbc:mysql://127.0.0.1:3306/os_brain_system?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: test
+    password: Test123456
   thymeleaf:
     mode: LEGACYHTML5
     # prefix: classpath:/web/
