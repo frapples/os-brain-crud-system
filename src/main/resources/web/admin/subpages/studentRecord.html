@@ -28,7 +28,7 @@
             </el-form-item>
         </el-form>
 
-        <el-table :data="data" v-loading="loading" border style="width: 100%">
+        <el-table :data="data" v-loading="loading" border style="width: 100%" :row-class-name="tableRowClassName">
 
             <el-table-column sortable prop="studentId" label="学号" width="120">
             </el-table-column>
@@ -126,7 +126,16 @@
                     this.students = res.records;
                     this.formLoading = false;
                 });
-            }
+            },
+
+            tableRowClassName(arg) {
+                var row = arg.row;
+                if (row.score == null) {
+                    return 'warning-row';
+                } else {
+                    return '';
+                }
+            },
 
         }
     });

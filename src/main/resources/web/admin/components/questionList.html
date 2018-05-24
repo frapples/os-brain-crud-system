@@ -9,12 +9,18 @@
         padding: 3px 0;
         margin-left: 40px;
     }
+
+    .x-admin-component-question-list .answer-content {
+        line-height: 1.5;
+        font-size: 15px;
+        color: #606266;
+    }
 </style>
 
 <template id="x-admin-component-question-list">
     <el-tabs v-model="activeName" tab-position="left" class="x-admin-component-question-list">
         <el-tab-pane label="单项选择题" name="first">
-            <div v-for="(question, index) in showData['SINGLE_CHOICE']">
+            <div v-for="(question, index) in showData['SINGLE_CHOICE']" :key="index">
                 <el-card style="margin-top: 10px">
                     <div slot="header" class="clearfix">
                         <span>
@@ -36,14 +42,16 @@
                     </div>
                     <div>
                         <el-radio-group :value="question.answerContent">
-                            <el-radio v-for="option in question.choiseOption" :label="option.label"> {{option.label }}. {{ option.content }} </el-radio>
+                            <el-radio v-for="(option, index) in question.choiseOption" :label="option.label" :key="index">
+                                 {{option.label }}. {{ option.content }} 
+                            </el-radio>
                         </el-radio-group>
                     </div>
                 </el-card>
             </div>
         </el-tab-pane>
         <el-tab-pane label="多项选择题" name="second">
-            <div v-for="(question, index) in showData['MULTI_CHOICE']">
+            <div v-for="(question, index) in showData['MULTI_CHOICE']" :key="index">
                 <el-card  style="margin-top: 10px">
                     <div slot="header" class="clearfix">
                         <span>
@@ -64,7 +72,8 @@
                         </div>
                     </div>
                     <div>
-                        <el-checkbox :value="question.answerContent.search(option.label) >= 0" v-for="option in question.choiseOption">
+                        <el-checkbox :value="question.answerContent.search(option.label) >= 0"
+                             v-for="(option, index) in question.choiseOption" :key="index">
                             {{option.label }}. {{ option.content }}
                         </el-checkbox>
                     </div>
@@ -92,7 +101,7 @@
                             {{ question.score }}分
                         </div>
                     </div>
-                    <div>
+                    <div class="answer-content">
                         {{ showFillBlankAnswer(question.answerContent) }}
                     </div>
                 </el-card>
@@ -120,7 +129,7 @@
                             {{ question.score }}分
                         </div>
                     </div>
-                    <div>
+                    <div class="answer-content">
                         {{ question.answerContent }}
                     </div>
                 </el-card>
