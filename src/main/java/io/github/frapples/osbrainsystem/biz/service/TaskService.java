@@ -43,16 +43,18 @@ public class TaskService {
     }
 
     public ResponseDTO replyTask(ExerciseRecord exerciseRecord, Map<String, Object> answers) {
-        int recordId = exerciseRecordRepository.updateOrInsertRecord(exerciseRecord);
         Optional<Task> task = taskRepository.getTask(exerciseRecord.getTaskId());
         if (!task.isPresent()) {
             return ResponseDTO.ofError();
         }
 
         Date now = new Date();
-        if (now.compareTo(task.get().getStartTime()) < 0 || now.compareTo(task.get().getEndTime()) > 0) {
+        if (now.compareTo(task.get().getStartTime()) < 0 ||
+            now.compareTo(task.get().getEndTime()) > 0) {
             return ResponseDTO.ofFailed(TaskReplyStatusEnum.TIME_NOT_MATCH_STATUS);
         }
+
+        int recordId = exerciseRecordRepository.updateOrInsertRecord(exerciseRecord);
 
         for (String questionId : answers.keySet()) {
             String jsonAnswer;
@@ -65,7 +67,10 @@ public class TaskService {
                 return ResponseDTO.ofError();
             }
 
-            exerciseRecordRepository.updateOrInsertReply(recordId, Integer.parseInt(questionId), jsonAnswer);
+            exerciseRecordRepository.updateOrInsertReply(
+                recordId,
+                Integer.parseInt(questionId),
+                jsonAnswer);
         }
 
         return ResponseDTO.ofSuccess();

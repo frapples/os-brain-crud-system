@@ -35,6 +35,9 @@ public class ExerciseBookController {
     @ResponseBody
     public ResponseDTO addBook(ExerciseBook exerciseBook) {
         log.info("Add book: {}", exerciseBook);
+        if (exerciseBook.getScore() == null) {
+            exerciseBook.setScore(0f);
+        }
         return questionService.addBook(exerciseBook);
     }
 

@@ -50,7 +50,7 @@
                  text-color="#bfcbd9"
                  active-text-color="#20a0ff"
                  @select="onSelect"
-                 unique-opened>
+                 :unique-opened="false">
             <template v-for="item in items">
                 <template v-if="item.subs">
                     <el-submenu :index="item.index">
@@ -108,10 +108,6 @@
                             {
                                 index: 'student',
                                 title: '学生列表'
-                            },
-                            {
-                                index: 'table3',
-                                title: 'Last Item'
                             },
                         ]
                     },
@@ -177,6 +173,7 @@
             },
 
             onSelect: function (index, path) {
+                this.$router.push(index);
                 this.$emit("select", index, path);
             },
         },

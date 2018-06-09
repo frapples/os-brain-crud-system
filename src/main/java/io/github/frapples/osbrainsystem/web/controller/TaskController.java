@@ -10,6 +10,7 @@ import io.github.frapples.osbrainsystem.biz.service.TaskService;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,9 @@ public class TaskController {
     @ResponseBody
     public ResponseDTO replyTask(@PathVariable Integer taskId, @RequestParam String studentId,
         @RequestParam Long startTime,
-        @RequestParam("answers") String jsonAnswers) {
+        @RequestParam("answers") String jsonAnswers,
+        String gps,
+        HttpServletRequest request) {
         log.info("Reply task");
         Map answers = JSON.parseObject(jsonAnswers, new TypeReference<Map<String, Object>>(){});
         ExerciseRecord exerciseRecord = ExerciseRecord.builder()
@@ -81,6 +84,8 @@ public class TaskController {
             .studentId(studentId)
             .startTime(new Date(startTime))
             .endTime(new Date())
+            .ip(request.getRemoteAddr())
+            .gps(gps)
             .build();
         return taskService.replyTask(exerciseRecord, answers);
     }

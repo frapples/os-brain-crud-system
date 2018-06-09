@@ -39,6 +39,7 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
+                    <el-button size="mini" @click="$refs.editform.open(scope.row)">编辑</el-button>
                     <el-button size="mini" @click="gotoRecord(scope.row)">练习记录</el-button>
                 </template>
             </el-table-column>
